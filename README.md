@@ -26,4 +26,4 @@ The site automatically deploys to GitHub Pages when changes are pushed to the ma
 
 ## License
 
-All content © Kevin Scott. Code structure MIT licensed.
+All content © Kevin Scott. Code structure MIT licensed.# Trigger rebuild
