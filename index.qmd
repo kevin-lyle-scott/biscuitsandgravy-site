@@ -12,14 +12,14 @@ format:
         
         /* Force large text sizes directly in header */
         #kevin-scott > p:first-of-type {
-          font-size: 3rem !important;
+          font-size: 2.2rem !important;
           font-weight: 600 !important;
           letter-spacing: -0.02em !important;
           margin-bottom: 1.5rem !important;
         }
         
         #kevin-scott > p:nth-of-type(2) {
-          font-size: 2rem !important;
+          font-size: 1.5rem !important;
           margin-bottom: 2rem !important;
         }
         
