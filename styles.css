@@ -232,6 +232,26 @@ th {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Social Links */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.social-links a {
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-image {
@@ -245,6 +265,14 @@ th {
   .hero-links a {
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
+  }
+  
+  .social-links {
+    gap: 1.2rem;
+  }
+  
+  .social-links a {
+    font-size: 1.5rem;
   }
   
   main.content {
@@ -283,4 +311,8 @@ th {
 
 .hero-links {
   animation-delay: 0.35s;
+}
+
+.social-links {
+  animation-delay: 0.45s;
 }
