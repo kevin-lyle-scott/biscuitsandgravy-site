@@ -2,9 +2,19 @@
 title: "Contact"
 ---
 
-Kevin Scott  
-klscott.learning@gmail.com
+## Get in Touch
 
+I'm interested in collaborations on machine learning research, particularly in areas of information retrieval and system optimization.
+
+**Email**  
+[klscott.learning@gmail.com](mailto:klscott.learning@gmail.com)
+
+**Professional**  
 [LinkedIn](https://linkedin.com/in/kevin-scott-9361315/) · [GitHub](https://github.com/kevin-lyle-scott)
 
-For research collaborations or technical discussions.
+**Location**  
+United States
+
+---
+
+*Response time is typically 1-2 business days.*

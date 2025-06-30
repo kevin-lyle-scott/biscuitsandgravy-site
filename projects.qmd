@@ -2,29 +2,39 @@
 title: "Projects"
 ---
 
-## Research
+## Active Research
 
 ### SketchRAG
-Dimension reduction for retrieval systems using sketching algorithms. Reduces embedding dimensions by 90% while maintaining retrieval accuracy.
+*Dimension reduction for retrieval systems*
 
-### MetaChunk
-Intelligent document segmentation using metadata-aware boundaries. Improves context preservation in retrieval-augmented generation.
+Applying sketching algorithms to reduce embedding dimensions by 90% while maintaining retrieval accuracy. Combines random projection with adaptive compression techniques.
 
-### GraphAgent
-Graph-based retrieval architecture for multi-hop reasoning. Combines knowledge graphs with autonomous agent systems.
-
-## Open Source
-
-Contributing to the machine learning community through optimizations and benchmarking tools.
-
-- LangChain optimizations for RAG pipeline efficiency
-- Vector database performance benchmarks
-- Fine-tuning utilities for memory-efficient training
-
-## Collaboration
-
-Working with Ethan Davis at SAS Institute on embedding compression techniques. Focus on practical applications of dimension reduction in production systems.
+[View on GitHub →](https://github.com/kevin-lyle-scott)
 
 ---
 
-[Contact me](contact.qmd) for collaboration opportunities.
+### MetaChunk  
+*Intelligent document segmentation*
+
+Context-aware document chunking using metadata boundaries. Improves retrieval quality in RAG systems by preserving semantic coherence.
+
+[Documentation →](https://github.com/kevin-lyle-scott)
+
+---
+
+### GraphAgent
+*Multi-hop reasoning architecture*
+
+Graph-based retrieval system for complex reasoning tasks. Integrates knowledge graphs with autonomous agent frameworks.
+
+[Learn more →](https://github.com/kevin-lyle-scott)
+
+## Collaborations
+
+Working with **Ethan Davis** at SAS Institute on embedding compression techniques for production ML systems.
+
+## Open Source
+
+- **LangChain** - RAG pipeline optimizations
+- **Vector DB Benchmarks** - Performance analysis tools  
+- **Fine-tuning Utils** - Memory-efficient training utilities

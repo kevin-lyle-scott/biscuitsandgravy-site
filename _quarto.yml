@@ -8,15 +8,15 @@ website:
     background: light
     collapse: false
     left:
-      - href: index.qmd
-        text: KS
+      - text: "Kevin Scott"
+        href: index.qmd
     right:
-      - href: projects.qmd
-        text: Projects
-      - href: blog.qmd
-        text: Writing
-      - href: contact.qmd
-        text: Contact
+      - text: "Projects"
+        href: projects.qmd
+      - text: "Research" 
+        href: blog.qmd
+      - text: "Contact"
+        href: contact.qmd
 
 format:
   html:
