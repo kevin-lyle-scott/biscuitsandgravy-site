@@ -1,4 +1,4 @@
-# Biscuits & Gravy - AI Research Portfolio
+# Kevin Scott - Portfolio
 
 Professional portfolio site built with Quarto, featuring research and work in Generative AI, RAG systems, and computational optimization.
 
