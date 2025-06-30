@@ -6,9 +6,9 @@ format:
 ---
 
 ::: {.hero-container}
+::: {.hero-content}
 ![](chip-min.png){.hero-image}
 
-::: {.hero-content}
 # Kevin Scott
 
 Machine learning researcher specializing in efficient information retrieval and dimension reduction for RAG systems.
