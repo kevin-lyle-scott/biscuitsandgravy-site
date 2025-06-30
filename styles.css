@@ -93,54 +93,9 @@ body {
   line-height: 1.1;
 }
 
-.hero-content > p {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
+/* Removed - now handled by inline styles */
 
-.hero-content > p > em {
-  font-style: normal;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  color: var(--text-secondary);
-  font-weight: 300;
-  display: block;
-  margin-top: 1rem;
-}
-
-/* Specific selectors for the generated structure */
-#kevin-scott > p:first-of-type {
-  font-size: clamp(2.2rem, 4vw, 3.2rem) !important;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-#kevin-scott > p:nth-of-type(2) {
-  font-size: clamp(1.6rem, 3vw, 2.2rem) !important;
-  margin-bottom: 2rem;
-}
-
-#kevin-scott > p:nth-of-type(2) > em {
-  font-style: normal;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* Force override any Quarto theme styles */
-.hero-container #kevin-scott > p:first-of-type {
-  font-size: clamp(2.2rem, 4vw, 3.2rem) !important;
-  font-weight: 600 !important;
-}
-
-.hero-container #kevin-scott > p:nth-of-type(2) {
-  font-size: clamp(1.6rem, 3vw, 2.2rem) !important;
-}
+/* Remove conflicting styles - now handled inline */
 
 /* Hero Links */
 .hero-links {
