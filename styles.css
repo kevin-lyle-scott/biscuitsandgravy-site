@@ -247,7 +247,7 @@ th {
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 5rem;
+  gap: 3rem;
   margin-top: 3rem;
 }
 
@@ -262,7 +262,7 @@ th {
 .social-links p {
   margin: 0;
   display: flex;
-  gap: 5rem;
+  gap: 3rem;
   justify-content: center;
 }
 
@@ -287,7 +287,11 @@ th {
   }
   
   .social-links {
-    gap: 4rem;
+    gap: 2.5rem;
+  }
+  
+  .social-links p {
+    gap: 2.5rem;
   }
   
   .social-links a {
