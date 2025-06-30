@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kevin Scott and Ethan Davis">
+<meta name="dcterms.date" content="2024-01-20">
+
+<title>Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems – Biscuits &amp; Gravy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a98ec624fb63d9b712fc3a6f62e2b305.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Biscuits &amp; Gravy</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../cv.qmd"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#theoretical-framework" id="toc-theoretical-framework" class="nav-link" data-scroll-target="#theoretical-framework">Theoretical Framework</a>
+  <ul class="collapse">
+  <li><a href="#column-space-reduction" id="toc-column-space-reduction" class="nav-link" data-scroll-target="#column-space-reduction">Column Space Reduction</a></li>
+  <li><a href="#discrete-cosine-transform-dct" id="toc-discrete-cosine-transform-dct" class="nav-link" data-scroll-target="#discrete-cosine-transform-dct">Discrete Cosine Transform (DCT)</a></li>
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+  </ul></li>
+  <li><a href="#quantization-strategies" id="toc-quantization-strategies" class="nav-link" data-scroll-target="#quantization-strategies">Quantization Strategies</a>
+  <ul class="collapse">
+  <li><a href="#scalar-quantization" id="toc-scalar-quantization" class="nav-link" data-scroll-target="#scalar-quantization">Scalar Quantization</a></li>
+  <li><a href="#vector-quantization" id="toc-vector-quantization" class="nav-link" data-scroll-target="#vector-quantization">Vector Quantization</a></li>
+  </ul></li>
+  <li><a href="#proposed-evaluation-methodology" id="toc-proposed-evaluation-methodology" class="nav-link" data-scroll-target="#proposed-evaluation-methodology">Proposed Evaluation Methodology</a>
+  <ul class="collapse">
+  <li><a href="#retrieval-consistency-metric" id="toc-retrieval-consistency-metric" class="nav-link" data-scroll-target="#retrieval-consistency-metric">Retrieval Consistency Metric</a></li>
+  <li><a href="#experimental-protocol" id="toc-experimental-protocol" class="nav-link" data-scroll-target="#experimental-protocol">Experimental Protocol</a></li>
+  <li><a href="#additional-metrics" id="toc-additional-metrics" class="nav-link" data-scroll-target="#additional-metrics">Additional Metrics</a></li>
+  </ul></li>
+  <li><a href="#theoretical-considerations" id="toc-theoretical-considerations" class="nav-link" data-scroll-target="#theoretical-considerations">Theoretical Considerations</a>
+  <ul class="collapse">
+  <li><a href="#information-theoretic-perspective" id="toc-information-theoretic-perspective" class="nav-link" data-scroll-target="#information-theoretic-perspective">Information-Theoretic Perspective</a></li>
+  <li><a href="#dct-vs-pca-key-differences" id="toc-dct-vs-pca-key-differences" class="nav-link" data-scroll-target="#dct-vs-pca-key-differences">DCT vs PCA: Key Differences</a></li>
+  </ul></li>
+  <li><a href="#implementation-considerations" id="toc-implementation-considerations" class="nav-link" data-scroll-target="#implementation-considerations">Implementation Considerations</a>
+  <ul class="collapse">
+  <li><a href="#computational-complexity" id="toc-computational-complexity" class="nav-link" data-scroll-target="#computational-complexity">Computational Complexity</a></li>
+  <li><a href="#numerical-stability" id="toc-numerical-stability" class="nav-link" data-scroll-target="#numerical-stability">Numerical Stability</a></li>
+  </ul></li>
+  <li><a href="#open-research-questions" id="toc-open-research-questions" class="nav-link" data-scroll-target="#open-research-questions">Open Research Questions</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">RAG</div>
+    <div class="quarto-category">dimension-reduction</div>
+    <div class="quarto-category">embeddings</div>
+    <div class="quarto-category">information-retrieval</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kevin Scott and Ethan Davis </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Dense embeddings from transformer-based models typically operate in high-dimensional spaces (d ∈ {384, 768, 1024, 1536}). While these representations capture rich semantic information, their dimensionality poses computational and storage challenges. This work examines column-space reduction techniques that aim to preserve retrieval quality in RAG pipelines.</p>
+</section>
+<section id="theoretical-framework" class="level2">
+<h2 class="anchored" data-anchor-id="theoretical-framework">Theoretical Framework</h2>
+<section id="column-space-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="column-space-reduction">Column Space Reduction</h3>
+<p>Given an embedding matrix <strong>E</strong> ∈ ℝ^(n×d) where n represents the number of documents and d the embedding dimension, we seek a transformation <strong>T</strong>: ℝ^d → ℝ^k where k &lt;&lt; d.</p>
+</section>
+<section id="discrete-cosine-transform-dct" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-cosine-transform-dct">Discrete Cosine Transform (DCT)</h3>
+<p>The DCT provides an orthogonal transformation that concentrates signal energy in low-frequency components:</p>
+<p><strong>E’</strong> = <strong>E</strong> · <strong>D</strong>^T</p>
+<p>where <strong>D</strong> is the DCT matrix. We retain the first k columns of <strong>E’</strong>, exploiting the energy compaction property commonly observed in natural signals.</p>
+</section>
+<section id="principal-component-analysis-pca" class="level3">
+<h3 class="anchored" data-anchor-id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h3>
+<p>PCA identifies the principal axes of variance in the embedding space:</p>
+<ol type="1">
+<li>Center the data: <strong>Ê</strong> = <strong>E</strong> - μ</li>
+<li>Compute covariance: <strong>C</strong> = (1/n) <strong>Ê</strong>^T <strong>Ê</strong></li>
+<li>Eigendecomposition: <strong>C</strong> = <strong>VΛV</strong>^T</li>
+<li>Project: <strong>E’</strong> = <strong>Ê</strong> · <strong>V</strong>_k</li>
+</ol>
+<p>where <strong>V</strong>_k contains the k eigenvectors with largest eigenvalues.</p>
+</section>
+</section>
+<section id="quantization-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="quantization-strategies">Quantization Strategies</h2>
+<p>Post-reduction quantization further compresses representations:</p>
+<section id="scalar-quantization" class="level3">
+<h3 class="anchored" data-anchor-id="scalar-quantization">Scalar Quantization</h3>
+<ul>
+<li>Map continuous values to discrete levels</li>
+<li>B-bit quantization: 2^B levels</li>
+<li>Consider Lloyd-Max quantizer for optimal level placement based on distribution</li>
+</ul>
+</section>
+<section id="vector-quantization" class="level3">
+<h3 class="anchored" data-anchor-id="vector-quantization">Vector Quantization</h3>
+<ul>
+<li>k-means clustering in reduced space</li>
+<li>Codebook size determines compression ratio</li>
+<li>Product quantization for large-scale applications</li>
+</ul>
+</section>
+</section>
+<section id="proposed-evaluation-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="proposed-evaluation-methodology">Proposed Evaluation Methodology</h2>
+<section id="retrieval-consistency-metric" class="level3">
+<h3 class="anchored" data-anchor-id="retrieval-consistency-metric">Retrieval Consistency Metric</h3>
+<p>For query q, let: - <strong>R</strong>_full(q, k) = top-k retrieved chunks using full embeddings - <strong>R</strong>_reduced(q, k) = top-k retrieved chunks using reduced embeddings</p>
+<p>We define retrieval consistency as:</p>
+<p>RC@k = |<strong>R</strong>_full(q, k) ∩ <strong>R</strong>_reduced(q, k)| / k</p>
+</section>
+<section id="experimental-protocol" class="level3">
+<h3 class="anchored" data-anchor-id="experimental-protocol">Experimental Protocol</h3>
+<ol type="1">
+<li><strong>Corpus Preparation</strong>: Segment documents into semantically coherent chunks</li>
+<li><strong>Embedding Generation</strong>: Apply pre-trained encoder (e.g., BERT, Sentence-BERT, E5)</li>
+<li><strong>Dimensionality Reduction</strong>:
+<ul>
+<li>For PCA: Compute on training subset, apply to full corpus</li>
+<li>For DCT: Direct application of transformation matrix</li>
+</ul></li>
+<li><strong>Quantization</strong>: Apply scalar or vector quantization to reduced embeddings</li>
+<li><strong>Evaluation</strong>:
+<ul>
+<li>Sample diverse query set</li>
+<li>Compare retrieval sets between full and reduced representations</li>
+<li>Measure RC@k for k ∈ {1, 5, 10, 20, 50}</li>
+<li>Analyze distribution of retrieval rank changes</li>
+</ul></li>
+</ol>
+</section>
+<section id="additional-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="additional-metrics">Additional Metrics</h3>
+<p>Beyond retrieval consistency, consider: - <strong>Semantic Similarity Preservation</strong>: Correlation between cosine similarities in original vs.&nbsp;reduced space - <strong>Computational Efficiency</strong>: Indexing time, query latency, memory footprint - <strong>Reconstruction Error</strong>: ||<strong>E</strong> - <strong>E’T</strong>^†||_F where <strong>T</strong>^† is the pseudo-inverse</p>
+</section>
+</section>
+<section id="theoretical-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="theoretical-considerations">Theoretical Considerations</h2>
+<section id="information-theoretic-perspective" class="level3">
+<h3 class="anchored" data-anchor-id="information-theoretic-perspective">Information-Theoretic Perspective</h3>
+<p>The fundamental question: what is the intrinsic dimensionality of semantic embeddings? Rate-distortion theory suggests embeddings contain redundancy that can be exploited.</p>
+</section>
+<section id="dct-vs-pca-key-differences" class="level3">
+<h3 class="anchored" data-anchor-id="dct-vs-pca-key-differences">DCT vs PCA: Key Differences</h3>
+<p><strong>PCA:</strong> - Data-dependent transformation - Optimal for Gaussian-distributed data - Requires eigendecomposition of covariance matrix - Captures global variance structure</p>
+<p><strong>DCT:</strong> - Data-independent transformation - Assumes local smoothness in embedding space - O(n log n) computation via FFT - Natural frequency interpretation</p>
+</section>
+</section>
+<section id="implementation-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-considerations">Implementation Considerations</h2>
+<section id="computational-complexity" class="level3">
+<h3 class="anchored" data-anchor-id="computational-complexity">Computational Complexity</h3>
+<ul>
+<li><strong>PCA</strong>: O(nd²) for covariance computation + O(d³) for eigendecomposition</li>
+<li><strong>DCT</strong>: O(nd log d) via FFT implementation</li>
+<li><strong>Quantization</strong>: O(nd) for scalar, O(ndk) for k-means vector quantization</li>
+</ul>
+</section>
+<section id="numerical-stability" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-stability">Numerical Stability</h3>
+<p>When implementing PCA on high-dimensional embeddings:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prefer SVD over eigendecomposition for numerical stability</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>U, S, Vt <span class="op">=</span> np.linalg.svd(centered_embeddings, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>principal_components <span class="op">=</span> Vt[:k].T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="open-research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="open-research-questions">Open Research Questions</h2>
+<ol type="1">
+<li><strong>Optimal Dimensionality Selection</strong>: How to determine k without extensive empirical search?</li>
+<li><strong>Query-Dependent Reduction</strong>: Can we adaptively select dimensions based on query characteristics?</li>
+<li><strong>Non-linear Alternatives</strong>: Would manifold learning techniques preserve retrieval quality better?</li>
+<li><strong>End-to-End Learning</strong>: Can we train embeddings aware of downstream compression?</li>
+</ol>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This work outlines a rigorous framework for evaluating dimensionality reduction techniques in RAG systems. The trade-off between computational efficiency and retrieval quality remains an active area of research. Future work should focus on establishing theoretical guarantees and developing adaptive compression strategies.</p>
+</section>
+<section id="acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>This research was conducted in collaboration with Ethan Davis at SAS Institute Inc.&nbsp;We thank the SAS Institute for computational resources and support.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Johnson, W. B., &amp; Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space.</li>
+<li>Jegou, H., Douze, M., &amp; Schmid, C. (2011). Product quantization for nearest neighbor search.</li>
+<li>Reimers, N., &amp; Gurevych, I. (2019). Sentence-BERT: Sentence embeddings using Siamese BERT-networks.</li>
+</ol>
+<hr>
+<p><em>This methodology paper outlines ongoing research. Implementations and empirical results will be shared upon completion of experiments.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

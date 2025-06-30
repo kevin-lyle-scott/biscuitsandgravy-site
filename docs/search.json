@@ -1,0 +1,149 @@
+[
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Insights and explorations in AI research, RAG systems, and computational optimization."
+  },
+  {
+    "objectID": "blog.html#technical-blog",
+    "href": "blog.html#technical-blog",
+    "title": "Blog",
+    "section": "",
+    "text": "Insights and explorations in AI research, RAG systems, and computational optimization."
+  },
+  {
+    "objectID": "index.html#research-focus-areas",
+    "href": "index.html#research-focus-areas",
+    "title": "Biscuits & Gravy - AI Research & Engineering",
+    "section": "Research Focus Areas",
+    "text": "Research Focus Areas\n\n\nRAG Enhancement\nImproving retrieval-augmented generation through advanced techniques including fine-tuning, quantization, and dimension reduction via random projection and sketching methods.\n\n\nSemantic Intelligence\nInnovating semantic search capabilities with metadata augmentation, developing novel semantic chunking methodologies for optimal context preservation.\n\n\nGraph RAG & Agentic Systems\nExploring Graph RAG architectures for complex reasoning tasks and their integration into autonomous agent frameworks.\n\n\nPerformance Optimization\nOptimizing numerical software and ML systems for computational efficiency, focusing on memory-efficient training and inference techniques."
+  },
+  {
+    "objectID": "index.html#recent-work",
+    "href": "index.html#recent-work",
+    "title": "Biscuits & Gravy - AI Research & Engineering",
+    "section": "Recent Work",
+    "text": "Recent Work\n\n\nLatest Research\n\nEfficient RAG with Random Projection - Reducing embedding dimensions while maintaining retrieval quality\nSemantic Chunking Strategies - Novel approaches to context-aware document segmentation\nGraph-Enhanced Retrieval - Leveraging knowledge graphs for improved RAG performance\n\n\n\nTechnical Blog Posts\n\nImplementing Quantization Techniques for LLM Fine-tuning\nMetadata Augmentation: A Practical Guide\nBuilding Scalable Agentic RAG Systems"
+  },
+  {
+    "objectID": "index.html#current-projects",
+    "href": "index.html#current-projects",
+    "title": "Biscuits & Gravy - AI Research & Engineering",
+    "section": "Current Projects",
+    "text": "Current Projects\n\n\nSketchRAG: A framework combining sketching algorithms with retrieval systems for 10x faster semantic search\nMetaChunk: Intelligent document chunking using metadata-aware segmentation\nGraphAgent: Agentic system leveraging Graph RAG for complex multi-hop reasoning\n\n\n\nExploring the frontiers of AI retrieval systems, one dimension at a time."
+  },
+  {
+    "objectID": "posts/welcome.html",
+    "href": "posts/welcome.html",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "",
+    "text": "We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc."
+  },
+  {
+    "objectID": "posts/welcome.html#abstract",
+    "href": "posts/welcome.html#abstract",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "",
+    "text": "We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc."
+  },
+  {
+    "objectID": "posts/welcome.html#introduction",
+    "href": "posts/welcome.html#introduction",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Introduction",
+    "text": "Introduction\nDense embeddings from transformer-based models typically operate in high-dimensional spaces (d ∈ {384, 768, 1024, 1536}). While these representations capture rich semantic information, their dimensionality poses computational and storage challenges. This work examines column-space reduction techniques that aim to preserve retrieval quality in RAG pipelines."
+  },
+  {
+    "objectID": "posts/welcome.html#theoretical-framework",
+    "href": "posts/welcome.html#theoretical-framework",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Theoretical Framework",
+    "text": "Theoretical Framework\n\nColumn Space Reduction\nGiven an embedding matrix E ∈ ℝ^(n×d) where n represents the number of documents and d the embedding dimension, we seek a transformation T: ℝ^d → ℝ^k where k &lt;&lt; d.\n\n\nDiscrete Cosine Transform (DCT)\nThe DCT provides an orthogonal transformation that concentrates signal energy in low-frequency components:\nE’ = E · D^T\nwhere D is the DCT matrix. We retain the first k columns of E’, exploiting the energy compaction property commonly observed in natural signals.\n\n\nPrincipal Component Analysis (PCA)\nPCA identifies the principal axes of variance in the embedding space:\n\nCenter the data: Ê = E - μ\nCompute covariance: C = (1/n) Ê^T Ê\nEigendecomposition: C = VΛV^T\nProject: E’ = Ê · V_k\n\nwhere V_k contains the k eigenvectors with largest eigenvalues."
+  },
+  {
+    "objectID": "posts/welcome.html#quantization-strategies",
+    "href": "posts/welcome.html#quantization-strategies",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Quantization Strategies",
+    "text": "Quantization Strategies\nPost-reduction quantization further compresses representations:\n\nScalar Quantization\n\nMap continuous values to discrete levels\nB-bit quantization: 2^B levels\nConsider Lloyd-Max quantizer for optimal level placement based on distribution\n\n\n\nVector Quantization\n\nk-means clustering in reduced space\nCodebook size determines compression ratio\nProduct quantization for large-scale applications"
+  },
+  {
+    "objectID": "posts/welcome.html#proposed-evaluation-methodology",
+    "href": "posts/welcome.html#proposed-evaluation-methodology",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Proposed Evaluation Methodology",
+    "text": "Proposed Evaluation Methodology\n\nRetrieval Consistency Metric\nFor query q, let: - R_full(q, k) = top-k retrieved chunks using full embeddings - R_reduced(q, k) = top-k retrieved chunks using reduced embeddings\nWe define retrieval consistency as:\nRC@k = |R_full(q, k) ∩ R_reduced(q, k)| / k\n\n\nExperimental Protocol\n\nCorpus Preparation: Segment documents into semantically coherent chunks\nEmbedding Generation: Apply pre-trained encoder (e.g., BERT, Sentence-BERT, E5)\nDimensionality Reduction:\n\nFor PCA: Compute on training subset, apply to full corpus\nFor DCT: Direct application of transformation matrix\n\nQuantization: Apply scalar or vector quantization to reduced embeddings\nEvaluation:\n\nSample diverse query set\nCompare retrieval sets between full and reduced representations\nMeasure RC@k for k ∈ {1, 5, 10, 20, 50}\nAnalyze distribution of retrieval rank changes\n\n\n\n\nAdditional Metrics\nBeyond retrieval consistency, consider: - Semantic Similarity Preservation: Correlation between cosine similarities in original vs. reduced space - Computational Efficiency: Indexing time, query latency, memory footprint - Reconstruction Error: ||E - E’T^†||_F where T^† is the pseudo-inverse"
+  },
+  {
+    "objectID": "posts/welcome.html#theoretical-considerations",
+    "href": "posts/welcome.html#theoretical-considerations",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Theoretical Considerations",
+    "text": "Theoretical Considerations\n\nInformation-Theoretic Perspective\nThe fundamental question: what is the intrinsic dimensionality of semantic embeddings? Rate-distortion theory suggests embeddings contain redundancy that can be exploited.\n\n\nDCT vs PCA: Key Differences\nPCA: - Data-dependent transformation - Optimal for Gaussian-distributed data - Requires eigendecomposition of covariance matrix - Captures global variance structure\nDCT: - Data-independent transformation - Assumes local smoothness in embedding space - O(n log n) computation via FFT - Natural frequency interpretation"
+  },
+  {
+    "objectID": "posts/welcome.html#implementation-considerations",
+    "href": "posts/welcome.html#implementation-considerations",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Implementation Considerations",
+    "text": "Implementation Considerations\n\nComputational Complexity\n\nPCA: O(nd²) for covariance computation + O(d³) for eigendecomposition\nDCT: O(nd log d) via FFT implementation\nQuantization: O(nd) for scalar, O(ndk) for k-means vector quantization\n\n\n\nNumerical Stability\nWhen implementing PCA on high-dimensional embeddings:\n# Prefer SVD over eigendecomposition for numerical stability\nU, S, Vt = np.linalg.svd(centered_embeddings, full_matrices=False)\nprincipal_components = Vt[:k].T"
+  },
+  {
+    "objectID": "posts/welcome.html#open-research-questions",
+    "href": "posts/welcome.html#open-research-questions",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Open Research Questions",
+    "text": "Open Research Questions\n\nOptimal Dimensionality Selection: How to determine k without extensive empirical search?\nQuery-Dependent Reduction: Can we adaptively select dimensions based on query characteristics?\nNon-linear Alternatives: Would manifold learning techniques preserve retrieval quality better?\nEnd-to-End Learning: Can we train embeddings aware of downstream compression?"
+  },
+  {
+    "objectID": "posts/welcome.html#conclusion",
+    "href": "posts/welcome.html#conclusion",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Conclusion",
+    "text": "Conclusion\nThis work outlines a rigorous framework for evaluating dimensionality reduction techniques in RAG systems. The trade-off between computational efficiency and retrieval quality remains an active area of research. Future work should focus on establishing theoretical guarantees and developing adaptive compression strategies."
+  },
+  {
+    "objectID": "posts/welcome.html#acknowledgments",
+    "href": "posts/welcome.html#acknowledgments",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThis research was conducted in collaboration with Ethan Davis at SAS Institute Inc. We thank the SAS Institute for computational resources and support."
+  },
+  {
+    "objectID": "posts/welcome.html#references",
+    "href": "posts/welcome.html#references",
+    "title": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems",
+    "section": "References",
+    "text": "References\n\nJohnson, W. B., & Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space.\nJegou, H., Douze, M., & Schmid, C. (2011). Product quantization for nearest neighbor search.\nReimers, N., & Gurevych, I. (2019). Sentence-BERT: Sentence embeddings using Siamese BERT-networks.\n\n\nThis methodology paper outlines ongoing research. Implementations and empirical results will be shared upon completion of experiments."
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact",
+    "section": "",
+    "text": "I’m always interested in discussing new research opportunities, collaborations, or innovative applications of RAG technology.\n\n\nFor research collaborations, consulting opportunities, or technical discussions:\nEmail: [klscott.learning@gmail.com]\nLinkedIn: [linkedin.com/in/kevin-scott-9361315/]\nGitHub: [github.com/kevin-lyle-scott]\n\n\n\nI’m particularly interested in connecting with researchers and practitioners working on:\n\nAdvanced RAG architectures and optimization\nSemantic search and information retrieval\nGraph-based knowledge representation\nHigh-performance ML systems\nNovel applications of dimension reduction in ML\n\n\n\n\nI hold virtual office hours for discussing research topics: - Schedule: [Calendly link or scheduling info] - Topics: RAG systems, semantic search, performance optimization\n\nResponse time is typically 2-3 business days. For urgent matters, please indicate in the subject line."
+  },
+  {
+    "objectID": "contact.html#get-in-touch",
+    "href": "contact.html#get-in-touch",
+    "title": "Contact",
+    "section": "",
+    "text": "I’m always interested in discussing new research opportunities, collaborations, or innovative applications of RAG technology.\n\n\nFor research collaborations, consulting opportunities, or technical discussions:\nEmail: [klscott.learning@gmail.com]\nLinkedIn: [linkedin.com/in/kevin-scott-9361315/]\nGitHub: [github.com/kevin-lyle-scott]\n\n\n\nI’m particularly interested in connecting with researchers and practitioners working on:\n\nAdvanced RAG architectures and optimization\nSemantic search and information retrieval\nGraph-based knowledge representation\nHigh-performance ML systems\nNovel applications of dimension reduction in ML\n\n\n\n\nI hold virtual office hours for discussing research topics: - Schedule: [Calendly link or scheduling info] - Topics: RAG systems, semantic search, performance optimization\n\nResponse time is typically 2-3 business days. For urgent matters, please indicate in the subject line."
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Status: In Development\nTechnologies: Python, NumPy, Faiss, Scikit-learn\nA framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.\nKey features: - Johnson-Lindenstrauss transform for dimension reduction - Adaptive sketching based on query complexity - Integration with popular vector databases\n\n\n\n\nStatus: Research Phase\nTechnologies: Python, Transformers, spaCy\nIntelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.\nKey innovations: - Context-aware boundary detection - Metadata-driven chunk sizing - Semantic coherence scoring\n\n\n\n\nStatus: Prototype\nTechnologies: Python, NetworkX, LangChain, Neo4j\nAn agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.\nResearch focus: - Knowledge graph construction from unstructured data - Graph traversal strategies for retrieval - Agent orchestration for complex reasoning tasks\n\n\n\n\n\n\n\nA comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.\n\n\n\nDeveloped benchmarking framework for evaluating semantic search systems across multiple domains and query types.\n\n\n\n\n\n\nContributions to LangChain: Optimizations for RAG pipeline efficiency\nVector Database Benchmarks: Comprehensive performance analysis of embedding storage solutions\nFine-tuning Utilities: Tools for efficient model adaptation\n\n\nFor collaboration opportunities or questions about any project, please contact me."
+  },
+  {
+    "objectID": "projects.html#research-projects",
+    "href": "projects.html#research-projects",
+    "title": "Projects",
+    "section": "",
+    "text": "Status: In Development\nTechnologies: Python, NumPy, Faiss, Scikit-learn\nA framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.\nKey features: - Johnson-Lindenstrauss transform for dimension reduction - Adaptive sketching based on query complexity - Integration with popular vector databases\n\n\n\n\nStatus: Research Phase\nTechnologies: Python, Transformers, spaCy\nIntelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.\nKey innovations: - Context-aware boundary detection - Metadata-driven chunk sizing - Semantic coherence scoring\n\n\n\n\nStatus: Prototype\nTechnologies: Python, NetworkX, LangChain, Neo4j\nAn agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.\nResearch focus: - Knowledge graph construction from unstructured data - Graph traversal strategies for retrieval - Agent orchestration for complex reasoning tasks\n\n\n\n\n\n\n\nA comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.\n\n\n\nDeveloped benchmarking framework for evaluating semantic search systems across multiple domains and query types.\n\n\n\n\n\n\nContributions to LangChain: Optimizations for RAG pipeline efficiency\nVector Database Benchmarks: Comprehensive performance analysis of embedding storage solutions\nFine-tuning Utilities: Tools for efficient model adaptation\n\n\nFor collaboration opportunities or questions about any project, please contact me."
+  }
+]
