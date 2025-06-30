@@ -1,36 +1,16 @@
 ---
-title: "Kevin Scott"
+title: " "
 page-layout: custom
 ---
 
 ::: {.minimal-hero}
 # Kevin Scott
 
-Researcher in machine learning and information retrieval.
+Machine learning researcher focused on efficient information retrieval.
 
-Focused on making AI systems more efficient through mathematical optimization.
+Currently: dimension reduction for RAG systems.
 :::
 
-::: {.content-section}
-## Work
-
-I research methods to reduce the computational complexity of retrieval-augmented generation systems. My approach combines classical numerical methods with modern machine learning architectures.
-
-Current areas of investigation include dimension reduction through random projection, efficient semantic search, and graph-based retrieval architectures.
-
-[View projects →](projects.qmd){.minimal-link}
-:::
-
-::: {.content-section}
-## Writing
-
-Technical notes on machine learning, optimization, and system design.
-
-[Read articles →](blog.qmd){.minimal-link}
-:::
-
-::: {.content-section}
-## Contact
-
-[Email](mailto:klscott.learning@gmail.com){.minimal-link} · [GitHub](https://github.com/kevin-lyle-scott){.minimal-link} · [LinkedIn](https://linkedin.com/in/kevin-scott-9361315/){.minimal-link}
+::: {.minimal-nav}
+[Projects](projects.qmd) · [Writing](blog.qmd) · [Contact](contact.qmd)
 :::

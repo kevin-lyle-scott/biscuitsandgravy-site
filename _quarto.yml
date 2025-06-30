@@ -5,9 +5,11 @@ project:
 website:
   title: "Kevin Scott"
   navbar:
+    background: light
+    collapse: false
     left:
       - href: index.qmd
-        text: Kevin Scott
+        text: KS
     right:
       - href: projects.qmd
         text: Projects
@@ -18,7 +20,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: zephyr
     css: styles.css
     toc: true
 
