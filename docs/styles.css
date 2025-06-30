@@ -1,0 +1,158 @@
+/* Minimal Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide navbar on homepage */
+.quarto-title-meta,
+.quarto-title-banner {
+  display: none;
+}
+
+/* Container */
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Homepage Hero */
+.minimal-hero {
+  margin-top: 25vh;
+  margin-bottom: 60px;
+}
+
+.minimal-hero h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.minimal-hero p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* Homepage Navigation */
+.minimal-nav {
+  font-size: 16px;
+  margin-bottom: 100px;
+}
+
+.minimal-nav a {
+  color: #0066cc;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.minimal-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Content Pages */
+.content {
+  margin-top: 80px;
+}
+
+.content h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
+}
+
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 40px 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 30px 0 15px;
+}
+
+.content p {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.content a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.content a:hover {
+  text-decoration: underline;
+}
+
+/* Code */
+code {
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 14px;
+  background: #f4f4f4;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+pre {
+  background: #f4f4f4;
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  font-weight: 600;
+}
+
+/* Math */
+.math.display {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .minimal-hero {
+    margin-top: 20vh;
+  }
+  
+  main {
+    padding: 0 16px;
+  }
+}
