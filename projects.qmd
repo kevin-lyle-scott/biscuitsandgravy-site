@@ -1,0 +1,66 @@
+---
+title: "Projects"
+---
+
+## Research Projects
+
+### Active Projects
+
+#### SketchRAG
+**Status:** In Development  
+**Technologies:** Python, NumPy, Faiss, Scikit-learn
+
+A framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.
+
+Key features:
+- Johnson-Lindenstrauss transform for dimension reduction
+- Adaptive sketching based on query complexity
+- Integration with popular vector databases
+
+---
+
+#### MetaChunk
+**Status:** Research Phase  
+**Technologies:** Python, Transformers, spaCy
+
+Intelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.
+
+Key innovations:
+- Context-aware boundary detection
+- Metadata-driven chunk sizing
+- Semantic coherence scoring
+
+---
+
+#### GraphAgent
+**Status:** Prototype  
+**Technologies:** Python, NetworkX, LangChain, Neo4j
+
+An agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.
+
+Research focus:
+- Knowledge graph construction from unstructured data
+- Graph traversal strategies for retrieval
+- Agent orchestration for complex reasoning tasks
+
+---
+
+### Completed Projects
+
+#### Quantized Fine-Tuning Toolkit
+A comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.
+
+#### Semantic Search Benchmark Suite
+Developed benchmarking framework for evaluating semantic search systems across multiple domains and query types.
+
+---
+
+### Open Source Contributions
+
+- **Contributions to LangChain**: Optimizations for RAG pipeline efficiency
+- **Vector Database Benchmarks**: Comprehensive performance analysis of embedding storage solutions
+- **Fine-tuning Utilities**: Tools for efficient model adaptation
+
+---
+
+*For collaboration opportunities or questions about any project, please [contact me](contact.qmd).*

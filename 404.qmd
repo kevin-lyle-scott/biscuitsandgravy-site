@@ -1,0 +1,29 @@
+---
+title: "404 - Page Not Found"
+page-layout: custom
+---
+
+::: {.error-page}
+# 404
+
+## Page Not Found
+
+The page you're looking for doesn't exist. It might have been moved, deleted, or the URL might be incorrect.
+
+### Suggested Pages:
+
+- [Home](index.qmd) - Return to the main page
+- [Blog](blog.qmd) - Read technical articles
+- [Projects](projects.qmd) - Explore research projects
+- [Contact](contact.qmd) - Get in touch
+
+### Search
+
+You can also try searching for what you're looking for:
+
+```{=html}
+<div class="search-box">
+  <input type="text" id="search-404" placeholder="Search site..." />
+</div>
+```
+:::

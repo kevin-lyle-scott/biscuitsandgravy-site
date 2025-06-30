@@ -1,0 +1,148 @@
+---
+title: "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems"
+author: "Kevin Scott and Ethan Davis"
+date: "2024-01-20"
+categories: [RAG, dimension-reduction, embeddings, information-retrieval]
+---
+
+## Abstract
+
+We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.
+
+## Introduction
+
+Dense embeddings from transformer-based models typically operate in high-dimensional spaces (d ∈ {384, 768, 1024, 1536}). While these representations capture rich semantic information, their dimensionality poses computational and storage challenges. This work examines column-space reduction techniques that aim to preserve retrieval quality in RAG pipelines.
+
+## Theoretical Framework
+
+### Column Space Reduction
+
+Given an embedding matrix **E** ∈ ℝ^(n×d) where n represents the number of documents and d the embedding dimension, we seek a transformation **T**: ℝ^d → ℝ^k where k << d.
+
+### Discrete Cosine Transform (DCT)
+
+The DCT provides an orthogonal transformation that concentrates signal energy in low-frequency components:
+
+**E'** = **E** · **D**^T
+
+where **D** is the DCT matrix. We retain the first k columns of **E'**, exploiting the energy compaction property commonly observed in natural signals.
+
+### Principal Component Analysis (PCA)
+
+PCA identifies the principal axes of variance in the embedding space:
+
+1. Center the data: **Ê** = **E** - μ
+2. Compute covariance: **C** = (1/n) **Ê**^T **Ê**
+3. Eigendecomposition: **C** = **V****Λ****V**^T
+4. Project: **E'** = **Ê** · **V**_k
+
+where **V**_k contains the k eigenvectors with largest eigenvalues.
+
+## Quantization Strategies
+
+Post-reduction quantization further compresses representations:
+
+### Scalar Quantization
+- Map continuous values to discrete levels
+- B-bit quantization: 2^B levels
+- Consider Lloyd-Max quantizer for optimal level placement based on distribution
+
+### Vector Quantization
+- k-means clustering in reduced space
+- Codebook size determines compression ratio
+- Product quantization for large-scale applications
+
+## Proposed Evaluation Methodology
+
+### Retrieval Consistency Metric
+
+For query q, let:
+- **R**_full(q, k) = top-k retrieved chunks using full embeddings
+- **R**_reduced(q, k) = top-k retrieved chunks using reduced embeddings
+
+We define retrieval consistency as:
+
+RC@k = |**R**_full(q, k) ∩ **R**_reduced(q, k)| / k
+
+### Experimental Protocol
+
+1. **Corpus Preparation**: Segment documents into semantically coherent chunks
+2. **Embedding Generation**: Apply pre-trained encoder (e.g., BERT, Sentence-BERT, E5)
+3. **Dimensionality Reduction**: 
+   - For PCA: Compute on training subset, apply to full corpus
+   - For DCT: Direct application of transformation matrix
+4. **Quantization**: Apply scalar or vector quantization to reduced embeddings
+5. **Evaluation**:
+   - Sample diverse query set
+   - Compare retrieval sets between full and reduced representations
+   - Measure RC@k for k ∈ {1, 5, 10, 20, 50}
+   - Analyze distribution of retrieval rank changes
+
+### Additional Metrics
+
+Beyond retrieval consistency, consider:
+- **Semantic Similarity Preservation**: Correlation between cosine similarities in original vs. reduced space
+- **Computational Efficiency**: Indexing time, query latency, memory footprint
+- **Reconstruction Error**: ||**E** - **E'****T**^†||_F where **T**^† is the pseudo-inverse
+
+## Theoretical Considerations
+
+### Information-Theoretic Perspective
+
+The fundamental question: what is the intrinsic dimensionality of semantic embeddings? Rate-distortion theory suggests embeddings contain redundancy that can be exploited.
+
+### DCT vs PCA: Key Differences
+
+**PCA:**
+- Data-dependent transformation
+- Optimal for Gaussian-distributed data
+- Requires eigendecomposition of covariance matrix
+- Captures global variance structure
+
+**DCT:**
+- Data-independent transformation
+- Assumes local smoothness in embedding space
+- O(n log n) computation via FFT
+- Natural frequency interpretation
+
+## Implementation Considerations
+
+### Computational Complexity
+
+- **PCA**: O(nd²) for covariance computation + O(d³) for eigendecomposition
+- **DCT**: O(nd log d) via FFT implementation
+- **Quantization**: O(nd) for scalar, O(ndk) for k-means vector quantization
+
+### Numerical Stability
+
+When implementing PCA on high-dimensional embeddings:
+```python
+# Prefer SVD over eigendecomposition for numerical stability
+U, S, Vt = np.linalg.svd(centered_embeddings, full_matrices=False)
+principal_components = Vt[:k].T
+```
+
+## Open Research Questions
+
+1. **Optimal Dimensionality Selection**: How to determine k without extensive empirical search?
+2. **Query-Dependent Reduction**: Can we adaptively select dimensions based on query characteristics?
+3. **Non-linear Alternatives**: Would manifold learning techniques preserve retrieval quality better?
+4. **End-to-End Learning**: Can we train embeddings aware of downstream compression?
+
+## Conclusion
+
+This work outlines a rigorous framework for evaluating dimensionality reduction techniques in RAG systems. The trade-off between computational efficiency and retrieval quality remains an active area of research. Future work should focus on establishing theoretical guarantees and developing adaptive compression strategies.
+
+## Acknowledgments
+
+This research was conducted in collaboration with Ethan Davis at SAS Institute Inc. We thank the SAS Institute for computational resources and support.
+
+## References
+
+1. Johnson, W. B., & Lindenstrauss, J. (1984). Extensions of Lipschitz mappings into a Hilbert space.
+2. Jegou, H., Douze, M., & Schmid, C. (2011). Product quantization for nearest neighbor search.
+3. Reimers, N., & Gurevych, I. (2019). Sentence-BERT: Sentence embeddings using Siamese BERT-networks.
+
+---
+
+*This methodology paper outlines ongoing research. Implementations and empirical results will be shared upon completion of experiments.*

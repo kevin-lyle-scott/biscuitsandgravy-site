@@ -1,0 +1,13 @@
+---
+title: "Blog"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  feed: true
+---
+
+## Technical Blog
+
+Insights and explorations in AI research, RAG systems, and computational optimization.

@@ -1,0 +1,17 @@
+/.quarto/
+/_site/
+/docs/
+/.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.env
+.vscode/
+*.swp
+*.swo
+*~
+.idea/
