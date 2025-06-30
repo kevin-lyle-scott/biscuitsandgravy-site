@@ -3,6 +3,13 @@ page-layout: custom
 format:
   html:
     toc: false
+    include-in-header:
+      text: |
+        <style>
+        #quarto-header {
+          display: none !important;
+        }
+        </style>
 ---
 
 ::: {.hero-container}

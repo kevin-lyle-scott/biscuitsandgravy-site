@@ -24,11 +24,22 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide Quarto navbar and title */
-#quarto-header,
+/* Hide Quarto title meta and title block, but keep navbar */
 .quarto-title-meta,
 #title-block-header {
   display: none !important;
+}
+
+/* Style the navbar brand as home link */
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 /* Main container adjustments */
@@ -52,7 +63,7 @@ body {
 
 /* Hero Image */
 .hero-image {
-  width: 200px;
+  width: 250px;
   height: auto;
   margin: 0 auto 2.5rem;
   display: block;
@@ -236,7 +247,7 @@ th {
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2.5rem;
   margin-top: 2.5rem;
 }
 
@@ -268,7 +279,7 @@ th {
   }
   
   .social-links {
-    gap: 1.2rem;
+    gap: 2rem;
   }
   
   .social-links a {
