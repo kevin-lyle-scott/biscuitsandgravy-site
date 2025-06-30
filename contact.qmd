@@ -4,7 +4,7 @@ title: "Contact"
 
 ## Get in Touch
 
-I'm interested in collaborations on machine learning research, particularly in areas of information retrieval and system optimization.
+I work at the intersection of generative AI and high-performance computing, helping organizations build efficient, scalable AI systems.
 
 **Email**  
 [klscott.learning@gmail.com](mailto:klscott.learning@gmail.com)

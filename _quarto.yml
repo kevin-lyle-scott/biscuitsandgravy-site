@@ -3,7 +3,7 @@ project:
   output-dir: .
 
 website:
-  title: "Kevin Scott"
+  title: "Kevin Scott - AI Systems & Performance"
   navbar:
     background: light
     collapse: false

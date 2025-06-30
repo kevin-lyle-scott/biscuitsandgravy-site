@@ -11,7 +11,9 @@ format:
 
 # Kevin Scott
 
-Machine learning researcher specializing in efficient information retrieval and dimension reduction for RAG systems.
+AI Systems & Performance Engineering
+
+*Optimizing generative AI systems and numerical computing architectures*
 
 ::: {.hero-links}
 [Projects](projects.qmd) [Research](blog.qmd) [Contact](contact.qmd)
