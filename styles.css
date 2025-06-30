@@ -14,8 +14,8 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  font-size: 16px;
+  font-family: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 18px;
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--bg-primary);
@@ -52,7 +52,7 @@ body {
 
 /* Hero Image */
 .hero-image {
-  width: 150px;
+  width: 200px;
   height: auto;
   margin: 0 auto 2.5rem;
   display: block;
@@ -75,7 +75,7 @@ body {
 }
 
 .hero-content h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(3rem, 6vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
@@ -83,7 +83,7 @@ body {
 }
 
 .hero-content > p {
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-primary);
   margin-bottom: 1rem;
   line-height: 1.3;
@@ -93,9 +93,9 @@ body {
 
 .hero-content > p > em {
   font-style: normal;
-  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: 300;
   display: block;
   margin-top: 0.5rem;
 }
@@ -112,9 +112,9 @@ body {
 .hero-links a {
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   transition: all 0.2s ease;
