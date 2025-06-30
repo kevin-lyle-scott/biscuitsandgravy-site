@@ -1,5 +1,5 @@
 ---
-title: "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems"
+title: "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and SVD for RAG Systems"
 author: "Kevin Scott and Ethan Davis"
 date: "2024-01-20"
 categories: [RAG, dimension-reduction, embeddings, information-retrieval]
@@ -7,7 +7,7 @@ categories: [RAG, dimension-reduction, embeddings, information-retrieval]
 
 ## Abstract
 
-We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.
+We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Singular Value Decomposition (SVD) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.
 
 ## Introduction
 
@@ -17,26 +17,25 @@ Dense embeddings from transformer-based models typically operate in high-dimensi
 
 ### Column Space Reduction
 
-Given an embedding matrix **E** ∈ ℝ^(n×d) where n represents the number of documents and d the embedding dimension, we seek a transformation **T**: ℝ^d → ℝ^k where k << d.
+Given an embedding matrix $\mathbf{E} \in \mathbb{R}^{n \times d}$ where $n$ represents the number of documents and $d$ the embedding dimension, we seek a transformation $\mathbf{T}: \mathbb{R}^d \rightarrow \mathbb{R}^k$ where $k \ll d$.
 
 ### Discrete Cosine Transform (DCT)
 
 The DCT provides an orthogonal transformation that concentrates signal energy in low-frequency components:
 
-**E'** = **E** · **D**^T
+$\mathbf{E}' = \mathbf{E} \mathbf{D}^T$
 
-where **D** is the DCT matrix. We retain the first k columns of **E'**, exploiting the energy compaction property commonly observed in natural signals.
+where $\mathbf{D} \in \mathbb{R}^{d \times d}$ is the DCT matrix. We retain the first $k$ columns of $\mathbf{E}'$, exploiting the energy compaction property commonly observed in natural signals.
 
-### Principal Component Analysis (PCA)
+### Singular Value Decomposition (SVD)
 
-PCA identifies the principal axes of variance in the embedding space:
+We apply SVD directly to the embedding matrix for dimensionality reduction:
 
-1. Center the data: **Ê** = **E** - μ
-2. Compute covariance: **C** = (1/n) **Ê**^T **Ê**
-3. Eigendecomposition: **C** = **V****Λ****V**^T
-4. Project: **E'** = **Ê** · **V**_k
+1. Compute SVD: $\mathbf{E} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T$
+2. Truncate to $k$ components: $\mathbf{E}_k = \mathbf{U}_k \boldsymbol{\Sigma}_k \mathbf{V}_k^T$
+3. Project embeddings: $\mathbf{E}' = \mathbf{E} \mathbf{V}_k$
 
-where **V**_k contains the k eigenvectors with largest eigenvalues.
+where $\mathbf{V}_k \in \mathbb{R}^{d \times k}$ contains the first $k$ right singular vectors, effectively projecting from $\mathbb{R}^d$ to $\mathbb{R}^k$.
 
 ## Quantization Strategies
 
@@ -56,13 +55,13 @@ Post-reduction quantization further compresses representations:
 
 ### Retrieval Consistency Metric
 
-For query q, let:
-- **R**_full(q, k) = top-k retrieved chunks using full embeddings
-- **R**_reduced(q, k) = top-k retrieved chunks using reduced embeddings
+For query $q$, let:
+- $\mathcal{R}_{\text{full}}(q, k)$ = top-$k$ retrieved chunks using full embeddings
+- $\mathcal{R}_{\text{reduced}}(q, k)$ = top-$k$ retrieved chunks using reduced embeddings
 
 We define retrieval consistency as:
 
-RC@k = |**R**_full(q, k) ∩ **R**_reduced(q, k)| / k
+$\text{RC@}k = \frac{|\mathcal{R}_{\text{full}}(q, k) \cap \mathcal{R}_{\text{reduced}}(q, k)|}{k}$
 
 ### Experimental Protocol
 
@@ -83,7 +82,7 @@ RC@k = |**R**_full(q, k) ∩ **R**_reduced(q, k)| / k
 Beyond retrieval consistency, consider:
 - **Semantic Similarity Preservation**: Correlation between cosine similarities in original vs. reduced space
 - **Computational Efficiency**: Indexing time, query latency, memory footprint
-- **Reconstruction Error**: ||**E** - **E'****T**^†||_F where **T**^† is the pseudo-inverse
+- **Reconstruction Error**: $\|\mathbf{E} - \mathbf{E}'\mathbf{T}^{\dagger}\|_F$ where $\mathbf{T}^{\dagger}$ is the pseudo-inverse
 
 ## Theoretical Considerations
 
@@ -91,35 +90,36 @@ Beyond retrieval consistency, consider:
 
 The fundamental question: what is the intrinsic dimensionality of semantic embeddings? Rate-distortion theory suggests embeddings contain redundancy that can be exploited.
 
-### DCT vs PCA: Key Differences
+### DCT vs SVD: Key Differences
 
-**PCA:**
+**SVD:**
 - Data-dependent transformation
-- Optimal for Gaussian-distributed data
-- Requires eigendecomposition of covariance matrix
+- Optimal linear dimensionality reduction (in Frobenius norm)
+- Requires singular value decomposition
 - Captures global variance structure
 
 **DCT:**
 - Data-independent transformation
 - Assumes local smoothness in embedding space
-- O(n log n) computation via FFT
+- $O(n \log d)$ computation via FFT
 - Natural frequency interpretation
 
 ## Implementation Considerations
 
 ### Computational Complexity
 
-- **PCA**: O(nd²) for covariance computation + O(d³) for eigendecomposition
-- **DCT**: O(nd log d) via FFT implementation
-- **Quantization**: O(nd) for scalar, O(ndk) for k-means vector quantization
+- **SVD**: $O(\min(n^2d, nd^2))$ for full decomposition
+- **DCT**: $O(nd \log d)$ via FFT implementation
+- **Quantization**: $O(nd)$ for scalar, $O(ndk_c)$ for $k_c$-means vector quantization
 
 ### Numerical Stability
 
 When implementing PCA on high-dimensional embeddings:
 ```python
-# Prefer SVD over eigendecomposition for numerical stability
-U, S, Vt = np.linalg.svd(centered_embeddings, full_matrices=False)
-principal_components = Vt[:k].T
+# Direct SVD on embedding matrix
+U, S, Vt = np.linalg.svd(embeddings, full_matrices=False)
+projection_matrix = Vt[:k].T
+reduced_embeddings = embeddings @ projection_matrix
 ```
 
 ## Open Research Questions
