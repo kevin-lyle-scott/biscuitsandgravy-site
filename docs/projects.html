@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Projects – Biscuits &amp; Gravy</title>
+<title>Projects – Kevin Scott</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Biscuits &amp; Gravy</span>
+    <span class="navbar-title">Kevin Scott</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -91,19 +91,17 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
+<span class="menu-text">Kevin Scott</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
-<span class="menu-text">Blog</span></a>
-  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./projects.html" aria-current="page"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.qmd"> 
-<span class="menu-text">CV</span></a>
+    <a class="nav-link" href="./blog.html"> 
+<span class="menu-text">Writing</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./contact.html"> 
@@ -125,12 +123,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#research-projects" id="toc-research-projects" class="nav-link active" data-scroll-target="#research-projects">Research Projects</a>
+  <li><a href="#research" id="toc-research" class="nav-link active" data-scroll-target="#research">Research</a>
   <ul class="collapse">
-  <li><a href="#active-projects" id="toc-active-projects" class="nav-link" data-scroll-target="#active-projects">Active Projects</a></li>
-  <li><a href="#completed-projects" id="toc-completed-projects" class="nav-link" data-scroll-target="#completed-projects">Completed Projects</a></li>
-  <li><a href="#open-source-contributions" id="toc-open-source-contributions" class="nav-link" data-scroll-target="#open-source-contributions">Open Source Contributions</a></li>
+  <li><a href="#sketchrag" id="toc-sketchrag" class="nav-link" data-scroll-target="#sketchrag">SketchRAG</a></li>
+  <li><a href="#metachunk" id="toc-metachunk" class="nav-link" data-scroll-target="#metachunk">MetaChunk</a></li>
+  <li><a href="#graphagent" id="toc-graphagent" class="nav-link" data-scroll-target="#graphagent">GraphAgent</a></li>
   </ul></li>
+  <li><a href="#open-source" id="toc-open-source" class="nav-link" data-scroll-target="#open-source">Open Source</a></li>
+  <li><a href="#collaboration" id="toc-collaboration" class="nav-link" data-scroll-target="#collaboration">Collaboration</a></li>
   </ul>
 </nav>
     </div>
@@ -156,59 +156,37 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="research-projects" class="level2">
-<h2 class="anchored" data-anchor-id="research-projects">Research Projects</h2>
-<section id="active-projects" class="level3">
-<h3 class="anchored" data-anchor-id="active-projects">Active Projects</h3>
-<section id="sketchrag" class="level4">
-<h4 class="anchored" data-anchor-id="sketchrag">SketchRAG</h4>
-<p><strong>Status:</strong> In Development<br>
-<strong>Technologies:</strong> Python, NumPy, Faiss, Scikit-learn</p>
-<p>A framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.</p>
-<p>Key features: - Johnson-Lindenstrauss transform for dimension reduction - Adaptive sketching based on query complexity - Integration with popular vector databases</p>
-<hr>
+<section id="research" class="level2">
+<h2 class="anchored" data-anchor-id="research">Research</h2>
+<section id="sketchrag" class="level3">
+<h3 class="anchored" data-anchor-id="sketchrag">SketchRAG</h3>
+<p>Dimension reduction for retrieval systems using sketching algorithms. Reduces embedding dimensions by 90% while maintaining retrieval accuracy.</p>
 </section>
-<section id="metachunk" class="level4">
-<h4 class="anchored" data-anchor-id="metachunk">MetaChunk</h4>
-<p><strong>Status:</strong> Research Phase<br>
-<strong>Technologies:</strong> Python, Transformers, spaCy</p>
-<p>Intelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.</p>
-<p>Key innovations: - Context-aware boundary detection - Metadata-driven chunk sizing - Semantic coherence scoring</p>
-<hr>
+<section id="metachunk" class="level3">
+<h3 class="anchored" data-anchor-id="metachunk">MetaChunk</h3>
+<p>Intelligent document segmentation using metadata-aware boundaries. Improves context preservation in retrieval-augmented generation.</p>
 </section>
-<section id="graphagent" class="level4">
-<h4 class="anchored" data-anchor-id="graphagent">GraphAgent</h4>
-<p><strong>Status:</strong> Prototype<br>
-<strong>Technologies:</strong> Python, NetworkX, LangChain, Neo4j</p>
-<p>An agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.</p>
-<p>Research focus: - Knowledge graph construction from unstructured data - Graph traversal strategies for retrieval - Agent orchestration for complex reasoning tasks</p>
-<hr>
+<section id="graphagent" class="level3">
+<h3 class="anchored" data-anchor-id="graphagent">GraphAgent</h3>
+<p>Graph-based retrieval architecture for multi-hop reasoning. Combines knowledge graphs with autonomous agent systems.</p>
 </section>
 </section>
-<section id="completed-projects" class="level3">
-<h3 class="anchored" data-anchor-id="completed-projects">Completed Projects</h3>
-<section id="quantized-fine-tuning-toolkit" class="level4">
-<h4 class="anchored" data-anchor-id="quantized-fine-tuning-toolkit">Quantized Fine-Tuning Toolkit</h4>
-<p>A comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.</p>
-</section>
-<section id="semantic-search-benchmark-suite" class="level4">
-<h4 class="anchored" data-anchor-id="semantic-search-benchmark-suite">Semantic Search Benchmark Suite</h4>
-<p>Developed benchmarking framework for evaluating semantic search systems across multiple domains and query types.</p>
-<hr>
-</section>
-</section>
-<section id="open-source-contributions" class="level3">
-<h3 class="anchored" data-anchor-id="open-source-contributions">Open Source Contributions</h3>
+<section id="open-source" class="level2">
+<h2 class="anchored" data-anchor-id="open-source">Open Source</h2>
+<p>Contributing to the machine learning community through optimizations and benchmarking tools.</p>
 <ul>
-<li><strong>Contributions to LangChain</strong>: Optimizations for RAG pipeline efficiency</li>
-<li><strong>Vector Database Benchmarks</strong>: Comprehensive performance analysis of embedding storage solutions</li>
-<li><strong>Fine-tuning Utilities</strong>: Tools for efficient model adaptation</li>
+<li>LangChain optimizations for RAG pipeline efficiency</li>
+<li>Vector database performance benchmarks</li>
+<li>Fine-tuning utilities for memory-efficient training</li>
 </ul>
-<hr>
-<p><em>For collaboration opportunities or questions about any project, please <a href="./contact.html">contact me</a>.</em></p>
-
-
 </section>
+<section id="collaboration" class="level2">
+<h2 class="anchored" data-anchor-id="collaboration">Collaboration</h2>
+<p>Working with Ethan Davis at SAS Institute on embedding compression techniques. Focus on practical applications of dimension reduction in production systems.</p>
+<hr>
+<p><a href="./contact.html">Contact me</a> for collaboration opportunities.</p>
+
+
 </section>
 
 </main> <!-- /main -->

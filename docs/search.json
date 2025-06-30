@@ -2,37 +2,30 @@
   {
     "objectID": "blog.html",
     "href": "blog.html",
-    "title": "Blog",
+    "title": "Writing",
     "section": "",
-    "text": "Insights and explorations in AI research, RAG systems, and computational optimization."
+    "text": "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems\n\n\n\n\n\n\n\n\nJan 20, 2024\n\n\nKevin Scott and Ethan Davis\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "blog.html#technical-blog",
-    "href": "blog.html#technical-blog",
-    "title": "Blog",
-    "section": "",
-    "text": "Insights and explorations in AI research, RAG systems, and computational optimization."
+    "objectID": "index.html#work",
+    "href": "index.html#work",
+    "title": "Kevin Scott",
+    "section": "Work",
+    "text": "Work\nI research methods to reduce the computational complexity of retrieval-augmented generation systems. My approach combines classical numerical methods with modern machine learning architectures.\nCurrent areas of investigation include dimension reduction through random projection, efficient semantic search, and graph-based retrieval architectures.\nView projects →"
   },
   {
-    "objectID": "index.html#research-focus-areas",
-    "href": "index.html#research-focus-areas",
-    "title": "Biscuits & Gravy - AI Research & Engineering",
-    "section": "Research Focus Areas",
-    "text": "Research Focus Areas\n\n\nRAG Enhancement\nImproving retrieval-augmented generation through advanced techniques including fine-tuning, quantization, and dimension reduction via random projection and sketching methods.\n\n\nSemantic Intelligence\nInnovating semantic search capabilities with metadata augmentation, developing novel semantic chunking methodologies for optimal context preservation.\n\n\nGraph RAG & Agentic Systems\nExploring Graph RAG architectures for complex reasoning tasks and their integration into autonomous agent frameworks.\n\n\nPerformance Optimization\nOptimizing numerical software and ML systems for computational efficiency, focusing on memory-efficient training and inference techniques."
+    "objectID": "index.html#writing",
+    "href": "index.html#writing",
+    "title": "Kevin Scott",
+    "section": "Writing",
+    "text": "Writing\nTechnical notes on machine learning, optimization, and system design.\nRead articles →"
   },
   {
-    "objectID": "index.html#recent-work",
-    "href": "index.html#recent-work",
-    "title": "Biscuits & Gravy - AI Research & Engineering",
-    "section": "Recent Work",
-    "text": "Recent Work\n\n\nLatest Research\n\nEfficient RAG with Random Projection - Reducing embedding dimensions while maintaining retrieval quality\nSemantic Chunking Strategies - Novel approaches to context-aware document segmentation\nGraph-Enhanced Retrieval - Leveraging knowledge graphs for improved RAG performance\n\n\n\nTechnical Blog Posts\n\nImplementing Quantization Techniques for LLM Fine-tuning\nMetadata Augmentation: A Practical Guide\nBuilding Scalable Agentic RAG Systems"
-  },
-  {
-    "objectID": "index.html#current-projects",
-    "href": "index.html#current-projects",
-    "title": "Biscuits & Gravy - AI Research & Engineering",
-    "section": "Current Projects",
-    "text": "Current Projects\n\n\nSketchRAG: A framework combining sketching algorithms with retrieval systems for 10x faster semantic search\nMetaChunk: Intelligent document chunking using metadata-aware segmentation\nGraphAgent: Agentic system leveraging Graph RAG for complex multi-hop reasoning\n\n\n\nExploring the frontiers of AI retrieval systems, one dimension at a time."
+    "objectID": "index.html#contact",
+    "href": "index.html#contact",
+    "title": "Kevin Scott",
+    "section": "Contact",
+    "text": "Contact\nEmail · GitHub · LinkedIn"
   },
   {
     "objectID": "posts/welcome.html",
@@ -123,27 +116,34 @@
     "href": "contact.html",
     "title": "Contact",
     "section": "",
-    "text": "I’m always interested in discussing new research opportunities, collaborations, or innovative applications of RAG technology.\n\n\nFor research collaborations, consulting opportunities, or technical discussions:\nEmail: [klscott.learning@gmail.com]\nLinkedIn: [linkedin.com/in/kevin-scott-9361315/]\nGitHub: [github.com/kevin-lyle-scott]\n\n\n\nI’m particularly interested in connecting with researchers and practitioners working on:\n\nAdvanced RAG architectures and optimization\nSemantic search and information retrieval\nGraph-based knowledge representation\nHigh-performance ML systems\nNovel applications of dimension reduction in ML\n\n\n\n\nI hold virtual office hours for discussing research topics: - Schedule: [Calendly link or scheduling info] - Topics: RAG systems, semantic search, performance optimization\n\nResponse time is typically 2-3 business days. For urgent matters, please indicate in the subject line."
-  },
-  {
-    "objectID": "contact.html#get-in-touch",
-    "href": "contact.html#get-in-touch",
-    "title": "Contact",
-    "section": "",
-    "text": "I’m always interested in discussing new research opportunities, collaborations, or innovative applications of RAG technology.\n\n\nFor research collaborations, consulting opportunities, or technical discussions:\nEmail: [klscott.learning@gmail.com]\nLinkedIn: [linkedin.com/in/kevin-scott-9361315/]\nGitHub: [github.com/kevin-lyle-scott]\n\n\n\nI’m particularly interested in connecting with researchers and practitioners working on:\n\nAdvanced RAG architectures and optimization\nSemantic search and information retrieval\nGraph-based knowledge representation\nHigh-performance ML systems\nNovel applications of dimension reduction in ML\n\n\n\n\nI hold virtual office hours for discussing research topics: - Schedule: [Calendly link or scheduling info] - Topics: RAG systems, semantic search, performance optimization\n\nResponse time is typically 2-3 business days. For urgent matters, please indicate in the subject line."
+    "text": "Kevin Scott\nklscott.learning@gmail.com\nLinkedIn · GitHub\nFor research collaborations or technical discussions."
   },
   {
     "objectID": "projects.html",
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Status: In Development\nTechnologies: Python, NumPy, Faiss, Scikit-learn\nA framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.\nKey features: - Johnson-Lindenstrauss transform for dimension reduction - Adaptive sketching based on query complexity - Integration with popular vector databases\n\n\n\n\nStatus: Research Phase\nTechnologies: Python, Transformers, spaCy\nIntelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.\nKey innovations: - Context-aware boundary detection - Metadata-driven chunk sizing - Semantic coherence scoring\n\n\n\n\nStatus: Prototype\nTechnologies: Python, NetworkX, LangChain, Neo4j\nAn agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.\nResearch focus: - Knowledge graph construction from unstructured data - Graph traversal strategies for retrieval - Agent orchestration for complex reasoning tasks\n\n\n\n\n\n\n\nA comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.\n\n\n\nDeveloped benchmarking framework for evaluating semantic search systems across multiple domains and query types.\n\n\n\n\n\n\nContributions to LangChain: Optimizations for RAG pipeline efficiency\nVector Database Benchmarks: Comprehensive performance analysis of embedding storage solutions\nFine-tuning Utilities: Tools for efficient model adaptation\n\n\nFor collaboration opportunities or questions about any project, please contact me."
+    "text": "Dimension reduction for retrieval systems using sketching algorithms. Reduces embedding dimensions by 90% while maintaining retrieval accuracy.\n\n\n\nIntelligent document segmentation using metadata-aware boundaries. Improves context preservation in retrieval-augmented generation.\n\n\n\nGraph-based retrieval architecture for multi-hop reasoning. Combines knowledge graphs with autonomous agent systems."
   },
   {
-    "objectID": "projects.html#research-projects",
-    "href": "projects.html#research-projects",
+    "objectID": "projects.html#research",
+    "href": "projects.html#research",
     "title": "Projects",
     "section": "",
-    "text": "Status: In Development\nTechnologies: Python, NumPy, Faiss, Scikit-learn\nA framework combining sketching algorithms with retrieval systems for efficient semantic search. By applying random projection techniques, SketchRAG reduces embedding dimensions by up to 90% while maintaining 95%+ retrieval accuracy.\nKey features: - Johnson-Lindenstrauss transform for dimension reduction - Adaptive sketching based on query complexity - Integration with popular vector databases\n\n\n\n\nStatus: Research Phase\nTechnologies: Python, Transformers, spaCy\nIntelligent document chunking system that leverages metadata and semantic understanding to create optimal text segments for RAG applications.\nKey innovations: - Context-aware boundary detection - Metadata-driven chunk sizing - Semantic coherence scoring\n\n\n\n\nStatus: Prototype\nTechnologies: Python, NetworkX, LangChain, Neo4j\nAn agentic system that combines Graph RAG with autonomous reasoning capabilities for complex multi-hop queries.\nResearch focus: - Knowledge graph construction from unstructured data - Graph traversal strategies for retrieval - Agent orchestration for complex reasoning tasks\n\n\n\n\n\n\n\nA comprehensive toolkit for memory-efficient LLM fine-tuning using quantization techniques. Achieved 4x memory reduction with minimal performance degradation.\n\n\n\nDeveloped benchmarking framework for evaluating semantic search systems across multiple domains and query types.\n\n\n\n\n\n\nContributions to LangChain: Optimizations for RAG pipeline efficiency\nVector Database Benchmarks: Comprehensive performance analysis of embedding storage solutions\nFine-tuning Utilities: Tools for efficient model adaptation\n\n\nFor collaboration opportunities or questions about any project, please contact me."
+    "text": "Dimension reduction for retrieval systems using sketching algorithms. Reduces embedding dimensions by 90% while maintaining retrieval accuracy.\n\n\n\nIntelligent document segmentation using metadata-aware boundaries. Improves context preservation in retrieval-augmented generation.\n\n\n\nGraph-based retrieval architecture for multi-hop reasoning. Combines knowledge graphs with autonomous agent systems."
+  },
+  {
+    "objectID": "projects.html#open-source",
+    "href": "projects.html#open-source",
+    "title": "Projects",
+    "section": "Open Source",
+    "text": "Open Source\nContributing to the machine learning community through optimizations and benchmarking tools.\n\nLangChain optimizations for RAG pipeline efficiency\nVector database performance benchmarks\nFine-tuning utilities for memory-efficient training"
+  },
+  {
+    "objectID": "projects.html#collaboration",
+    "href": "projects.html#collaboration",
+    "title": "Projects",
+    "section": "Collaboration",
+    "text": "Collaboration\nWorking with Ethan Davis at SAS Institute on embedding compression techniques. Focus on practical applications of dimension reduction in production systems.\n\nContact me for collaboration opportunities."
   }
 ]
