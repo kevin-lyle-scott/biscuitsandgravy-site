@@ -1,5 +1,10 @@
 /.quarto/
 /_site/
+*.html
+!404.qmd
+site_libs/
+search.json
+listings.json
 /.Rproj.user/
 .Rhistory
 .RData
