@@ -1,63 +1,36 @@
 ---
-title: "Biscuits & Gravy - AI Research & Engineering"
+title: "Kevin Scott"
 page-layout: custom
 ---
 
-::: {.hero-section}
-# Advancing Generative AI Through Research & Innovation
+::: {.minimal-hero}
+# Kevin Scott
 
-I'm Kevin Scott, a researcher and engineer focused on pushing the boundaries of Retrieval-Augmented Generation (RAG) systems, exploring the intersection of machine learning, information retrieval, and high-performance computing.
+Researcher in machine learning and information retrieval.
 
-[Explore My Research](projects.qmd){.btn .btn-primary .btn-lg}
-[Read My Blog](blog.qmd){.btn .btn-outline-primary .btn-lg}
+Focused on making AI systems more efficient through mathematical optimization.
 :::
 
-## Research Focus Areas
+::: {.content-section}
+## Work
 
-::: {.feature-grid}
-::: {.feature-card}
-### RAG Enhancement
-Improving retrieval-augmented generation through advanced techniques including fine-tuning, quantization, and dimension reduction via random projection and sketching methods.
+I research methods to reduce the computational complexity of retrieval-augmented generation systems. My approach combines classical numerical methods with modern machine learning architectures.
+
+Current areas of investigation include dimension reduction through random projection, efficient semantic search, and graph-based retrieval architectures.
+
+[View projects →](projects.qmd){.minimal-link}
 :::
 
-::: {.feature-card}
-### Semantic Intelligence
-Innovating semantic search capabilities with metadata augmentation, developing novel semantic chunking methodologies for optimal context preservation.
+::: {.content-section}
+## Writing
+
+Technical notes on machine learning, optimization, and system design.
+
+[Read articles →](blog.qmd){.minimal-link}
 :::
 
-::: {.feature-card}
-### Graph RAG & Agentic Systems
-Exploring Graph RAG architectures for complex reasoning tasks and their integration into autonomous agent frameworks.
+::: {.content-section}
+## Contact
+
+[Email](mailto:klscott.learning@gmail.com){.minimal-link} · [GitHub](https://github.com/kevin-lyle-scott){.minimal-link} · [LinkedIn](https://linkedin.com/in/kevin-scott-9361315/){.minimal-link}
 :::
-
-::: {.feature-card}
-### Performance Optimization
-Optimizing numerical software and ML systems for computational efficiency, focusing on memory-efficient training and inference techniques.
-:::
-:::
-
-## Recent Work
-
-::: {.recent-section}
-### Latest Research
-- **Efficient RAG with Random Projection** - Reducing embedding dimensions while maintaining retrieval quality
-- **Semantic Chunking Strategies** - Novel approaches to context-aware document segmentation
-- **Graph-Enhanced Retrieval** - Leveraging knowledge graphs for improved RAG performance
-
-### Technical Blog Posts
-- Implementing Quantization Techniques for LLM Fine-tuning
-- Metadata Augmentation: A Practical Guide
-- Building Scalable Agentic RAG Systems
-:::
-
-## Current Projects
-
-::: {.project-preview}
-- **SketchRAG**: A framework combining sketching algorithms with retrieval systems for 10x faster semantic search
-- **MetaChunk**: Intelligent document chunking using metadata-aware segmentation
-- **GraphAgent**: Agentic system leveraging Graph RAG for complex multi-hop reasoning
-:::
-
----
-
-*Exploring the frontiers of AI retrieval systems, one dimension at a time.*

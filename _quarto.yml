@@ -3,17 +3,16 @@ project:
   output-dir: docs
 
 website:
-  title: "Biscuits & Gravy"
+  title: "Kevin Scott"
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - href: blog.qmd
-        text: Blog
+        text: Kevin Scott
+    right:
       - href: projects.qmd
         text: Projects
-      - href: cv.qmd
-        text: CV
+      - href: blog.qmd
+        text: Writing
       - href: contact.qmd
         text: Contact
 

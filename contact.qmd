@@ -2,34 +2,9 @@
 title: "Contact"
 ---
 
-## Get in Touch
+Kevin Scott  
+klscott.learning@gmail.com
 
-I'm always interested in discussing new research opportunities, collaborations, or innovative applications of RAG technology.
+[LinkedIn](https://linkedin.com/in/kevin-scott-9361315/) · [GitHub](https://github.com/kevin-lyle-scott)
 
-### Professional Inquiries
-
-For research collaborations, consulting opportunities, or technical discussions:
-
-**Email:** [klscott.learning@gmail.com]  
-**LinkedIn:** [linkedin.com/in/kevin-scott-9361315/]  
-**GitHub:** [github.com/kevin-lyle-scott]
-
-### Research Interests
-
-I'm particularly interested in connecting with researchers and practitioners working on:
-
-- Advanced RAG architectures and optimization
-- Semantic search and information retrieval
-- Graph-based knowledge representation
-- High-performance ML systems
-- Novel applications of dimension reduction in ML
-
-### Office Hours
-
-I hold virtual office hours for discussing research topics:
-- **Schedule:** [Calendly link or scheduling info]
-- **Topics:** RAG systems, semantic search, performance optimization
-
----
-
-*Response time is typically 2-3 business days. For urgent matters, please indicate in the subject line.*
+For research collaborations or technical discussions.
