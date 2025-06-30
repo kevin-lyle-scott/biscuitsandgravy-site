@@ -9,7 +9,7 @@
 <meta name="author" content="Kevin Scott and Ethan Davis">
 <meta name="dcterms.date" content="2024-01-20">
 
-<title>Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems – Kevin Scott</title>
+<title>Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and SVD for RAG Systems – Kevin Scott</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a98ec624fb63d9b712fc3a6f62e2b305.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-cbb68b6503013f50816b80c4e3fb2a7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -113,25 +142,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Kevin Scott</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Kevin Scott</span></a>
+<span class="menu-text">KS</span></a>
   </li>  
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+          <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../projects.html"> 
 <span class="menu-text">Projects</span></a>
@@ -145,9 +169,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Contact</span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
+            <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -166,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#column-space-reduction" id="toc-column-space-reduction" class="nav-link" data-scroll-target="#column-space-reduction">Column Space Reduction</a></li>
   <li><a href="#discrete-cosine-transform-dct" id="toc-discrete-cosine-transform-dct" class="nav-link" data-scroll-target="#discrete-cosine-transform-dct">Discrete Cosine Transform (DCT)</a></li>
-  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+  <li><a href="#singular-value-decomposition-svd" id="toc-singular-value-decomposition-svd" class="nav-link" data-scroll-target="#singular-value-decomposition-svd">Singular Value Decomposition (SVD)</a></li>
   </ul></li>
   <li><a href="#quantization-strategies" id="toc-quantization-strategies" class="nav-link" data-scroll-target="#quantization-strategies">Quantization Strategies</a>
   <ul class="collapse">
@@ -182,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#theoretical-considerations" id="toc-theoretical-considerations" class="nav-link" data-scroll-target="#theoretical-considerations">Theoretical Considerations</a>
   <ul class="collapse">
   <li><a href="#information-theoretic-perspective" id="toc-information-theoretic-perspective" class="nav-link" data-scroll-target="#information-theoretic-perspective">Information-Theoretic Perspective</a></li>
-  <li><a href="#dct-vs-pca-key-differences" id="toc-dct-vs-pca-key-differences" class="nav-link" data-scroll-target="#dct-vs-pca-key-differences">DCT vs PCA: Key Differences</a></li>
+  <li><a href="#dct-vs-svd-key-differences" id="toc-dct-vs-svd-key-differences" class="nav-link" data-scroll-target="#dct-vs-svd-key-differences">DCT vs SVD: Key Differences</a></li>
   </ul></li>
   <li><a href="#implementation-considerations" id="toc-implementation-considerations" class="nav-link" data-scroll-target="#implementation-considerations">Implementation Considerations</a>
   <ul class="collapse">
@@ -201,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and PCA for RAG Systems</h1>
+<h1 class="title">Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and SVD for RAG Systems</h1>
   <div class="quarto-categories">
     <div class="quarto-category">RAG</div>
     <div class="quarto-category">dimension-reduction</div>
@@ -238,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Principal Component Analysis (PCA) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.</p>
+<p>We present a methodological framework for evaluating dimensionality reduction techniques in dense embedding spaces for Retrieval-Augmented Generation (RAG) systems. Specifically, we examine Discrete Cosine Transform (DCT) and Singular Value Decomposition (SVD) applied to the column space of embedding matrices, followed by quantization. Our evaluation protocol centers on retrieval consistency - measuring whether reduced representations retrieve the same contextual chunks as full-dimensional embeddings. This work was conducted in collaboration with Ethan Davis at SAS Institute Inc.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
@@ -248,24 +272,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="theoretical-framework">Theoretical Framework</h2>
 <section id="column-space-reduction" class="level3">
 <h3 class="anchored" data-anchor-id="column-space-reduction">Column Space Reduction</h3>
-<p>Given an embedding matrix <strong>E</strong> ∈ ℝ^(n×d) where n represents the number of documents and d the embedding dimension, we seek a transformation <strong>T</strong>: ℝ^d → ℝ^k where k &lt;&lt; d.</p>
+<p>Given an embedding matrix <span class="math inline">\(\mathbf{E} \in \mathbb{R}^{n \times d}\)</span> where <span class="math inline">\(n\)</span> represents the number of documents and <span class="math inline">\(d\)</span> the embedding dimension, we seek a transformation <span class="math inline">\(\mathbf{T}: \mathbb{R}^d \rightarrow \mathbb{R}^k\)</span> where <span class="math inline">\(k \ll d\)</span>.</p>
 </section>
 <section id="discrete-cosine-transform-dct" class="level3">
 <h3 class="anchored" data-anchor-id="discrete-cosine-transform-dct">Discrete Cosine Transform (DCT)</h3>
 <p>The DCT provides an orthogonal transformation that concentrates signal energy in low-frequency components:</p>
-<p><strong>E’</strong> = <strong>E</strong> · <strong>D</strong>^T</p>
-<p>where <strong>D</strong> is the DCT matrix. We retain the first k columns of <strong>E’</strong>, exploiting the energy compaction property commonly observed in natural signals.</p>
+<p><span class="math inline">\(\mathbf{E}' = \mathbf{E} \mathbf{D}^T\)</span></p>
+<p>where <span class="math inline">\(\mathbf{D} \in \mathbb{R}^{d \times d}\)</span> is the DCT matrix. We retain the first <span class="math inline">\(k\)</span> columns of <span class="math inline">\(\mathbf{E}'\)</span>, exploiting the energy compaction property commonly observed in natural signals.</p>
 </section>
-<section id="principal-component-analysis-pca" class="level3">
-<h3 class="anchored" data-anchor-id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h3>
-<p>PCA identifies the principal axes of variance in the embedding space:</p>
+<section id="singular-value-decomposition-svd" class="level3">
+<h3 class="anchored" data-anchor-id="singular-value-decomposition-svd">Singular Value Decomposition (SVD)</h3>
+<p>We apply SVD directly to the embedding matrix for dimensionality reduction:</p>
 <ol type="1">
-<li>Center the data: <strong>Ê</strong> = <strong>E</strong> - μ</li>
-<li>Compute covariance: <strong>C</strong> = (1/n) <strong>Ê</strong>^T <strong>Ê</strong></li>
-<li>Eigendecomposition: <strong>C</strong> = <strong>VΛV</strong>^T</li>
-<li>Project: <strong>E’</strong> = <strong>Ê</strong> · <strong>V</strong>_k</li>
+<li>Compute SVD: <span class="math inline">\(\mathbf{E} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T\)</span></li>
+<li>Truncate to <span class="math inline">\(k\)</span> components: <span class="math inline">\(\mathbf{E}_k = \mathbf{U}_k \boldsymbol{\Sigma}_k \mathbf{V}_k^T\)</span></li>
+<li>Project embeddings: <span class="math inline">\(\mathbf{E}' = \mathbf{E} \mathbf{V}_k\)</span></li>
 </ol>
-<p>where <strong>V</strong>_k contains the k eigenvectors with largest eigenvalues.</p>
+<p>where <span class="math inline">\(\mathbf{V}_k \in \mathbb{R}^{d \times k}\)</span> contains the first <span class="math inline">\(k\)</span> right singular vectors, effectively projecting from <span class="math inline">\(\mathbb{R}^d\)</span> to <span class="math inline">\(\mathbb{R}^k\)</span>.</p>
 </section>
 </section>
 <section id="quantization-strategies" class="level2">
@@ -292,9 +315,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="proposed-evaluation-methodology">Proposed Evaluation Methodology</h2>
 <section id="retrieval-consistency-metric" class="level3">
 <h3 class="anchored" data-anchor-id="retrieval-consistency-metric">Retrieval Consistency Metric</h3>
-<p>For query q, let: - <strong>R</strong>_full(q, k) = top-k retrieved chunks using full embeddings - <strong>R</strong>_reduced(q, k) = top-k retrieved chunks using reduced embeddings</p>
+<p>For query <span class="math inline">\(q\)</span>, let: - <span class="math inline">\(\mathcal{R}_{\text{full}}(q, k)\)</span> = top-<span class="math inline">\(k\)</span> retrieved chunks using full embeddings - <span class="math inline">\(\mathcal{R}_{\text{reduced}}(q, k)\)</span> = top-<span class="math inline">\(k\)</span> retrieved chunks using reduced embeddings</p>
 <p>We define retrieval consistency as:</p>
-<p>RC@k = |<strong>R</strong>_full(q, k) ∩ <strong>R</strong>_reduced(q, k)| / k</p>
+<p><span class="math inline">\(\text{RC@}k = \frac{|\mathcal{R}_{\text{full}}(q, k) \cap \mathcal{R}_{\text{reduced}}(q, k)|}{k}\)</span></p>
 </section>
 <section id="experimental-protocol" class="level3">
 <h3 class="anchored" data-anchor-id="experimental-protocol">Experimental Protocol</h3>
@@ -318,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="additional-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="additional-metrics">Additional Metrics</h3>
-<p>Beyond retrieval consistency, consider: - <strong>Semantic Similarity Preservation</strong>: Correlation between cosine similarities in original vs.&nbsp;reduced space - <strong>Computational Efficiency</strong>: Indexing time, query latency, memory footprint - <strong>Reconstruction Error</strong>: ||<strong>E</strong> - <strong>E’T</strong>^†||_F where <strong>T</strong>^† is the pseudo-inverse</p>
+<p>Beyond retrieval consistency, consider: - <strong>Semantic Similarity Preservation</strong>: Correlation between cosine similarities in original vs.&nbsp;reduced space - <strong>Computational Efficiency</strong>: Indexing time, query latency, memory footprint - <strong>Reconstruction Error</strong>: <span class="math inline">\(\|\mathbf{E} - \mathbf{E}'\mathbf{T}^{\dagger}\|_F\)</span> where <span class="math inline">\(\mathbf{T}^{\dagger}\)</span> is the pseudo-inverse</p>
 </section>
 </section>
 <section id="theoretical-considerations" class="level2">
@@ -327,10 +350,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="information-theoretic-perspective">Information-Theoretic Perspective</h3>
 <p>The fundamental question: what is the intrinsic dimensionality of semantic embeddings? Rate-distortion theory suggests embeddings contain redundancy that can be exploited.</p>
 </section>
-<section id="dct-vs-pca-key-differences" class="level3">
-<h3 class="anchored" data-anchor-id="dct-vs-pca-key-differences">DCT vs PCA: Key Differences</h3>
-<p><strong>PCA:</strong> - Data-dependent transformation - Optimal for Gaussian-distributed data - Requires eigendecomposition of covariance matrix - Captures global variance structure</p>
-<p><strong>DCT:</strong> - Data-independent transformation - Assumes local smoothness in embedding space - O(n log n) computation via FFT - Natural frequency interpretation</p>
+<section id="dct-vs-svd-key-differences" class="level3">
+<h3 class="anchored" data-anchor-id="dct-vs-svd-key-differences">DCT vs SVD: Key Differences</h3>
+<p><strong>SVD:</strong> - Data-dependent transformation - Optimal linear dimensionality reduction (in Frobenius norm) - Requires singular value decomposition - Captures global variance structure</p>
+<p><strong>DCT:</strong> - Data-independent transformation - Assumes local smoothness in embedding space - <span class="math inline">\(O(n \log d)\)</span> computation via FFT - Natural frequency interpretation</p>
 </section>
 </section>
 <section id="implementation-considerations" class="level2">
@@ -338,17 +361,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="computational-complexity" class="level3">
 <h3 class="anchored" data-anchor-id="computational-complexity">Computational Complexity</h3>
 <ul>
-<li><strong>PCA</strong>: O(nd²) for covariance computation + O(d³) for eigendecomposition</li>
-<li><strong>DCT</strong>: O(nd log d) via FFT implementation</li>
-<li><strong>Quantization</strong>: O(nd) for scalar, O(ndk) for k-means vector quantization</li>
+<li><strong>SVD</strong>: <span class="math inline">\(O(\min(n^2d, nd^2))\)</span> for full decomposition</li>
+<li><strong>DCT</strong>: <span class="math inline">\(O(nd \log d)\)</span> via FFT implementation</li>
+<li><strong>Quantization</strong>: <span class="math inline">\(O(nd)\)</span> for scalar, <span class="math inline">\(O(ndk_c)\)</span> for <span class="math inline">\(k_c\)</span>-means vector quantization</li>
 </ul>
 </section>
 <section id="numerical-stability" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-stability">Numerical Stability</h3>
 <p>When implementing PCA on high-dimensional embeddings:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prefer SVD over eigendecomposition for numerical stability</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>U, S, Vt <span class="op">=</span> np.linalg.svd(centered_embeddings, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>principal_components <span class="op">=</span> Vt[:k].T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Direct SVD on embedding matrix</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>U, S, Vt <span class="op">=</span> np.linalg.svd(embeddings, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>projection_matrix <span class="op">=</span> Vt[:k].T</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>reduced_embeddings <span class="op">=</span> embeddings <span class="op">@</span> projection_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="open-research-questions" class="level2">
