@@ -247,8 +247,8 @@ th {
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 4rem;
-  margin-top: 2.5rem;
+  gap: 5rem;
+  margin-top: 3rem;
 }
 
 .social-links a {
@@ -256,6 +256,14 @@ th {
   font-size: 1.8rem;
   transition: all 0.2s ease;
   text-decoration: none;
+  display: inline-block;
+}
+
+.social-links p {
+  margin: 0;
+  display: flex;
+  gap: 5rem;
+  justify-content: center;
 }
 
 .social-links a:hover {
@@ -279,7 +287,7 @@ th {
   }
   
   .social-links {
-    gap: 3rem;
+    gap: 4rem;
   }
   
   .social-links a {
