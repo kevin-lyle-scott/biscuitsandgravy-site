@@ -12,7 +12,7 @@ Working with **Ethan Davis** at SAS Institute on embedding compression technique
 - **Vector DB Benchmarks** - Performance analysis tools  
 - **Fine-tuning Utils** - Memory-efficient training utilities
 
-## Research Explorations
+## Explorations
 
 ### Linguistic Semantic Chunking
 *Interactive exploration of advanced chunking algorithms*
