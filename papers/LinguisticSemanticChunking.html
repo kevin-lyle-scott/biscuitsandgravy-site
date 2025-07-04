@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Linguistic-Semantic Chunking (LSC) Algorithm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is designed as a single-page, "scrollytelling" experience that guides the user through a logical narrative: Problem -> Existing Solutions -> The LSC Solution -> Evaluation -> Future. This structure is more intuitive for learning than mirroring the original report's academic sections. It starts broad and progressively deepens the user's understanding. Key interactions include a visual demonstration of chunking flaws, a comparative chart for different paradigms, and an interactive, multi-layered flowchart of the LSC algorithm. This task-oriented flow, focused on understanding and comparison, was chosen to make the highly technical content digestible for a professional audience (NLP researchers, engineers) by breaking it into thematically coherent, interactive sections. -->
+    <!-- Visualization & Content Choices: The application uses a variety of interactive elements to explain complex concepts without SVG or Mermaid. 1) Chunking Flaws (Compare): Text blocks are dynamically highlighted/split to visually demonstrate context fragmentation and semantic dilution. 2) Paradigm Comparison (Compare/Organize): A tabbed interface presents data from Table 1, coupled with a dynamic Chart.js Radar chart to visually compare paradigms on key axes (Granularity, Context, Cost). This is more engaging than a static table. 3) LSC Algorithm (Organize/Inform): A multi-layered flowchart built with HTML/Tailwind visually represents the 4-stage pipeline from Section 4. Clicking each stage reveals detailed information, turning a complex process into an explorable diagram. 4) Evaluation Metrics (Inform): An interactive card grid presents the proposed metrics from Table 3, allowing users to focus on one concept at a time. All choices prioritize interaction and clarity over static presentation, using Chart.js and custom JS/HTML/CSS as the implementation method. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-warm-base { background-color: #FDFBF8; }
+        .bg-warm-secondary { background-color: #F4F1ED; }
+        .text-warm-primary { color: #3a3a3a; }
+        .text-warm-secondary { color: #575757; }
+        .border-warm-accent { border-color: #D1C7BA; }
+        .accent-color { color: #00796B; }
+        .bg-accent-color { background-color: #00796B; }
+        .bg-accent-light { background-color: #E0F2F1; }
+        .text-accent-dark { color: #004D40; }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .lsc-layer-connector {
+            width: 2px;
+            background-color: #D1C7BA;
+            margin: 0 auto;
+            height: 3rem;
+        }
+        .lsc-layer-connector::after {
+            content: '▼';
+            display: block;
+            text-align: center;
+            color: #D1C7BA;
+            position: relative;
+            top: 2.5rem;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-warm-base text-warm-primary antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Section -->
+        <header class="text-center py-16 md:py-24 section-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">The Linguistic-Semantic Chunking (LSC) Algorithm</h1>
+            <p class="text-lg md:text-xl text-warm-secondary max-w-3xl mx-auto">An interactive exploration of a multi-layered, principled design for text coherence in the age of Large Language Models.</p>
+        </header>
+
+        <!-- The Problem Section -->
+        <section id="problem" class="py-12 md:py-16 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">The Chunking Dilemma</h2>
+            <p class="text-warm-secondary text-center max-w-2xl mx-auto mb-12">Effective text chunking is a balancing act. The goal is to create chunks small enough for precision but large enough to retain meaning. Most methods fail, leading to two critical problems: Context Fragmentation and Semantic Dilution. This section demonstrates these failures.</p>
+            
+            <div class="bg-warm-secondary rounded-lg p-6 md:p-8">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Example Text</h3>
+                        <p id="example-text-display" class="bg-white p-4 rounded-md text-warm-secondary leading-relaxed transition-all duration-500">Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science. She was the first woman to win a Nobel Prize, the first person and the only woman to win the Nobel Prize twice, and the only person to win the Nobel Prize in two scientific fields. Her husband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Test the Strategies</h3>
+                        <p class="text-warm-secondary mb-4">Click the buttons to see how naive chunking strategies can break the text's semantic integrity.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <button id="btn-fixed-size" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Fixed-Size Chunking</button>
+                            <button id="btn-paragraph" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Paragraph Chunking</button>
+                            <button id="btn-reset" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Reset</button>
+                        </div>
+                        <div id="explanation-box" class="mt-4 p-4 bg-accent-light text-accent-dark rounded-md opacity-0 transition-opacity duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paradigms Section -->
+        <section id="paradigms" class="py-12 md:py-16 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">A Tour of Chunking Paradigms</h2>
+            <p class="text-warm-secondary text-center max-w-2xl mx-auto mb-12">The evolution of chunking can be seen as a progression through several paradigms. Each attempts to find the ideal semantically coherent unit, but with significant trade-offs. Select a paradigm below to compare its approach and effectiveness.</p>
+            
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/3">
+                    <div id="paradigm-selector" class="flex md:flex-col flex-wrap gap-2">
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 bg-warm-secondary rounded-lg p-6 md:p-8">
+                    <div id="paradigm-details" class="mb-6"></div>
+                    <div class="chart-container">
+                        <canvas id="paradigm-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LSC Algorithm Section -->
+        <section id="lsc-algorithm" class="py-12 md:py-16 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">The Linguistic-Semantic Chunking (LSC) Algorithm</h2>
+            <p class="text-warm-secondary text-center max-w-3xl mx-auto mb-12">The LSC algorithm moves beyond simple splitting and topical similarity. It models a document as a multi-layered graph of meaning, integrating deep linguistic analysis to create truly coherent chunks. Explore its four-layer pipeline by clicking on each stage below.</p>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- LSC Layers Flowchart -->
+                <div id="lsc-layers-container" class="w-full lg:w-1/2 flex flex-col items-center">
+                </div>
+
+                <!-- LSC Layer Details -->
+                <div class="w-full lg:w-1/2 bg-warm-secondary rounded-lg p-6 md:p-8 min-h-[300px]">
+                    <div id="lsc-details-content">
+                         <div class="text-center text-warm-secondary pt-8">
+                            <p class="text-2xl mb-4">➔</p>
+                            <p>Select a layer on the left to see its details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Evaluation Section -->
+        <section id="evaluation" class="py-12 md:py-16 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Rethinking Evaluation</h2>
+            <p class="text-warm-secondary text-center max-w-2xl mx-auto mb-12">Standard metrics fail to measure what truly matters: the internal coherence of a chunk. We propose a new suite of linguistically-motivated metrics that assess the actual quality and self-containment of the generated chunks.</p>
+
+            <div id="metrics-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            </div>
+        </section>
+
+        <!-- Future Section -->
+        <section id="future" class="py-12 md:py-16 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Future Trajectories</h2>
+            <p class="text-warm-secondary text-center max-w-2xl mx-auto mb-12">The field is evolving rapidly. While LSC offers a robust solution for today's challenges, new research is exploring paradigms that could reduce or even eliminate the need for pre-chunking, focusing instead on model architecture and data curation.</p>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-warm-secondary p-6 rounded-lg">
+                    <h3 class="font-semibold text-xl mb-2">Chunking-Free Retrieval</h3>
+                    <p class="text-warm-secondary">Approaches like Chunking-Free In-Context Retrieval (CFIC) aim to bypass the "split-then-embed" pipeline entirely, instead retrieving evidence directly from the hidden states of an entire document. This avoids any risk of context fragmentation.</p>
+                </div>
+                <div class="bg-warm-secondary p-6 rounded-lg">
+                    <h3 class="font-semibold text-xl mb-2">Data-Centric AI</h3>
+                    <p class="text-warm-secondary">Frameworks like ProLong focus on improving the LLM's intrinsic abilities by training it on a curated diet of documents rich in genuine long-range dependencies. A better model is less sensitive to imperfect chunking.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-warm-secondary border-t border-warm-accent mt-16">
+            <p>Interactive report generated from source material on the Linguistic-Semantic Chunking (LSC) Algorithm.</p>
+        </footer>
+
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const originalText = `Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science. She was the first woman to win a Nobel Prize, the first person and the only woman to win the Nobel Prize twice, and the only person to win the Nobel Prize in two scientific fields. Her husband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.`;
+
+    const appData = {
+        originalText: originalText,
+        chunkingStrategies: {
+            fixedSize: {
+                text: `Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science. She was the first woman to win a Nobel Priz<span class="bg-red-200 text-red-800 font-bold">|</span>e, the first person and the only woman to win the Nobel Prize twice, and the only person to win the Nobel Prize in two scientific fields. Her hu<span class="bg-red-200 text-red-800 font-bold">|</span>sband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.`,
+                explanation: '<strong>Context Fragmentation:</strong> This brute-force method splits the text at arbitrary points (e.g., every 150 characters). Notice how it severs words ("Prize") and separates concepts ("husband" from "Pierre Curie"), creating nonsensical, fragmented chunks.'
+            },
+            paragraph: {
+                text: `<span class="bg-blue-200 text-blue-800">${originalText}</span>`,
+                explanation: '<strong>Semantic Dilution:</strong> Using the entire paragraph as a single chunk preserves context but dilutes meaning. This chunk contains multiple facts (radioactivity research, Nobel prizes, her husband). A query about "Pierre Curie" would retrieve all this information, potentially confusing an LLM with irrelevant details.'
+            }
+        },
+        paradigms: [
+            { id: 'fixed', name: 'Fixed-Size/Recursive', principle: 'Heuristic/Structural', mechanism: 'Character/token count, separator list', vulnerability: 'Semantic fragmentation and disruption of logical flow.', data: [2, 1, 5] },
+            { id: 'embedding', name: 'Embedding-Similarity', principle: 'Topical Cohesion', mechanism: 'Cosine similarity of sentence embeddings', vulnerability: 'Fails to capture non-topical relations; inconsistent on coherent documents.', data: [3, 3, 3] },
+            { id: 'propositional', name: 'Propositional/Agentic', principle: 'Logical Cohesion', mechanism: 'LLM-based proposition extraction & grouping', vulnerability: 'High computational cost; bottlenecked by LLM reasoning quality.', data: [5, 4, 2] },
+            { id: 'lsc', name: 'Linguistic-Semantic (LSC)', principle: 'Rhetorical & Semantic Cohesion', mechanism: 'Hybrid pipeline of linguistics & dynamic assembly', vulnerability: 'High computational cost; requires multiple linguistic models.', data: [4, 5, 1] }
+        ],
+        lscLayers: [
+            { id: 1, name: 'Propositional Decomposition & Grounding', icon: '📝', principle: 'Propositional Logic, Coreference', process: 'Uses an LLM to extract minimal propositions and a coreference model to replace pronouns with their canonical entities (e.g., "She won" becomes "Marie Curie won").', output: 'Graph of referentially-grounded propositions.' },
+            { id: 2, name: 'Predicate-Argument Analysis', icon: '⚙️', principle: 'Frame Semantics, Thematic Roles', process: 'Applies Semantic Role Labeling (SRL) to find "who did what to whom" and maps verbs to a conceptual ontology (FrameNet) to group related actions.', output: 'Event-centric micro-clusters of propositions.' },
+            { id: 3, name: 'Rhetorical Boundary Detection', icon: '🌳', principle: 'Rhetorical Structure Theory (RST)', process: 'Builds a discourse tree to understand the argumentative flow (e.g., claim -> evidence -> contrast). Identifies chunk boundaries at major rhetorical shifts.', output: 'Candidate chunk boundaries.' },
+            { id: 4, name: 'Dynamic Chunk Assembly', icon: '🧩', principle: 'Discourse Cohesion, Cognitive Constraints', process: 'Assembles final chunks using a composite score, respecting rhetorical boundaries and token limits while ensuring topical consistency.', output: 'Final, coherent, size-constrained text chunks.' }
+        ],
+        evaluationMetrics: [
+            { name: 'Propositional Integrity (PIS)', principle: 'Logical Completeness', measures: 'The degree to which a chunk fragments a core argument or idea.', icon: '✔️' },
+            { name: 'Referential Closure (RCS)', principle: 'Anaphora/Coreference', measures: 'The degree of contextual self-containment; checks for dangling pronouns.', icon: '🔗' },
+            { name: 'Rhetorical Coherence (RhCS)', principle: 'Rhetorical Structure', measures: 'Whether the chunk represents a single, coherent rhetorical move (e.g., a claim and its evidence).', icon: '⚖️' },
+            { name: 'Semantic Frame Consistency (SFC)', principle: 'Frame Semantics', measures: 'The thematic unity of the chunk, ensuring it focuses on a single event type.', icon: '🎯' }
+        ]
+    };
+
+    // Fading sections on scroll
+    const sections = document.querySelectorAll('.section-fade-in');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+
+    // Chunking Dilemma Logic
+    const textDisplay = document.getElementById('example-text-display');
+    const explanationBox = document.getElementById('explanation-box');
+    
+    document.getElementById('btn-fixed-size').addEventListener('click', () => {
+        textDisplay.innerHTML = appData.chunkingStrategies.fixedSize.text;
+        explanationBox.innerHTML = appData.chunkingStrategies.fixedSize.explanation;
+        explanationBox.style.opacity = '1';
+    });
+    
+    document.getElementById('btn-paragraph').addEventListener('click', () => {
+        textDisplay.innerHTML = appData.chunkingStrategies.paragraph.text;
+        explanationBox.innerHTML = appData.chunkingStrategies.paragraph.explanation;
+        explanationBox.style.opacity = '1';
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+        textDisplay.innerHTML = appData.originalText;
+        explanationBox.innerHTML = '';
+        explanationBox.style.opacity = '0';
+    });
+
+    // Paradigms Logic
+    const paradigmSelector = document.getElementById('paradigm-selector');
+    const paradigmDetails = document.getElementById('paradigm-details');
+    const paradigmChartCtx = document.getElementById('paradigm-chart').getContext('2d');
+    let paradigmChart;
+
+    const renderParadigmSelector = () => {
+        paradigmSelector.innerHTML = appData.paradigms.map((p, index) => `
+            <button data-paradigm-id="${p.id}" class="paradigm-btn w-full text-left px-4 py-3 rounded-md transition-colors font-medium ${index === 0 ? 'bg-accent-color text-white' : 'bg-white hover:bg-accent-light'}">
+                ${p.name}
+            </button>
+        `).join('');
+    };
+
+    const renderParadigmDetails = (paradigm) => {
+        paradigmDetails.innerHTML = `
+            <h3 class="text-2xl font-bold mb-2">${paradigm.name}</h3>
+            <p class="text-warm-secondary mb-4"><strong class="text-warm-primary">Core Principle:</strong> ${paradigm.principle}</p>
+            <p class="text-warm-secondary mb-4"><strong class="text-warm-primary">Mechanism:</strong> ${paradigm.mechanism}</p>
+            <div class="p-3 bg-red-50 text-red-800 border-l-4 border-red-400 rounded-r-md">
+                <p><strong class="font-semibold">Key Vulnerability:</strong> ${paradigm.vulnerability}</p>
+            </div>
+        `;
+    };
+    
+    const updateParadigmChart = (paradigmData) => {
+        if (paradigmChart) {
+            paradigmChart.data.datasets[0].data = paradigmData;
+            paradigmChart.update();
+        } else {
+            paradigmChart = new Chart(paradigmChartCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Granularity', 'Context Preservation', 'Computational Cost'],
+                    datasets: [{
+                        label: 'Paradigm Score (1=Low, 5=High)',
+                        data: paradigmData,
+                        backgroundColor: 'rgba(0, 121, 107, 0.2)',
+                        borderColor: 'rgba(0, 121, 107, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(0, 121, 107, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(0, 121, 107, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#D1C7BA' },
+                            grid: { color: '#E0E0E0' },
+                            pointLabels: {
+                                font: { size: 14, family: 'Inter' },
+                                color: '#575757'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                max: 5,
+                                min: 0,
+                                stepSize: 1,
+                                backdropColor: 'rgba(253, 251, 248, 0.75)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    };
+    
+    paradigmSelector.addEventListener('click', (e) => {
+        const button = e.target.closest('.paradigm-btn');
+        if (button) {
+            const paradigmId = button.dataset.paradigmId;
+            const selectedParadigm = appData.paradigms.find(p => p.id === paradigmId);
+
+            document.querySelectorAll('.paradigm-btn').forEach(btn => {
+                btn.classList.remove('bg-accent-color', 'text-white');
+                btn.classList.add('bg-white', 'hover:bg-accent-light');
+            });
+            button.classList.add('bg-accent-color', 'text-white');
+            button.classList.remove('bg-white', 'hover:bg-accent-light');
+            
+            renderParadigmDetails(selectedParadigm);
+            updateParadigmChart(selectedParadigm.data);
+        }
+    });
+
+    // LSC Algorithm Logic
+    const lscLayersContainer = document.getElementById('lsc-layers-container');
+    const lscDetailsContent = document.getElementById('lsc-details-content');
+
+    const renderLscLayers = () => {
+        let html = '';
+        appData.lscLayers.forEach((layer, index) => {
+            html += `
+                <div data-layer-id="${layer.id}" class="lsc-layer-btn bg-white border-2 border-warm-accent rounded-lg p-4 w-full max-w-md cursor-pointer hover:border-accent-color hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">${layer.icon}</div>
+                        <div>
+                            <p class="font-semibold text-lg">Layer ${layer.id}: ${layer.name}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            if (index < appData.lscLayers.length - 1) {
+                html += `<div class="lsc-layer-connector"></div>`;
+            }
+        });
+        lscLayersContainer.innerHTML = html;
+    };
+    
+    const renderLscDetails = (layer) => {
+        lscDetailsContent.innerHTML = `
+            <h3 class="text-2xl font-bold mb-3 flex items-center"><span class="text-3xl mr-3">${layer.icon}</span>Layer ${layer.id}: ${layer.name}</h3>
+            <div class="space-y-4">
+                <p><strong class="font-semibold text-warm-primary block">Core Linguistic Principle:</strong> <span class="text-warm-secondary">${layer.principle}</span></p>
+                <p><strong class="font-semibold text-warm-primary block">Process:</strong> <span class="text-warm-secondary">${layer.process}</span></p>
+                <div class="p-3 bg-accent-light text-accent-dark rounded-md">
+                    <p><strong class="font-semibold">Output:</strong> ${layer.output}</p>
+                </div>
+            </div>
+        `;
+    };
+    
+    lscLayersContainer.addEventListener('click', (e) => {
+        const button = e.target.closest('.lsc-layer-btn');
+        if (button) {
+            const layerId = parseInt(button.dataset.layerId);
+            const selectedLayer = appData.lscLayers.find(l => l.id === layerId);
+            
+            document.querySelectorAll('.lsc-layer-btn').forEach(btn => {
+                btn.classList.remove('bg-accent-light', 'border-accent-color');
+                btn.classList.add('bg-white', 'border-warm-accent');
+            });
+            button.classList.add('bg-accent-light', 'border-accent-color');
+            button.classList.remove('bg-white');
+
+            renderLscDetails(selectedLayer);
+        }
+    });
+
+    // Evaluation Metrics Logic
+    const metricsGrid = document.getElementById('metrics-grid');
+
+    const renderMetrics = () => {
+        metricsGrid.innerHTML = appData.evaluationMetrics.map(metric => `
+            <div class="bg-warm-secondary p-6 rounded-lg border border-warm-accent h-full flex flex-col">
+                <div class="flex items-center mb-3">
+                    <div class="text-2xl mr-3">${metric.icon}</div>
+                    <h3 class="font-bold text-lg">${metric.name}</h3>
+                </div>
+                <p class="text-warm-secondary text-sm mb-3"><strong class="text-warm-primary">Principle:</strong> ${metric.principle}</p>
+                <p class="text-warm-secondary flex-grow">${metric.measures}</p>
+            </div>
+        `).join('');
+    };
+
+    // Initial renders
+    renderParadigmSelector();
+    document.querySelector('.paradigm-btn').click();
+    renderLscLayers();
+    renderMetrics();
+});
+</script>
+</body>
+</html>
