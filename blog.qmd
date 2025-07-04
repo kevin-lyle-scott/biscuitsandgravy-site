@@ -7,7 +7,3 @@ listing:
   categories: false
   feed: true
 ---
-
-## Related Resources
-
-- [Technical Papers](./papers.html) - Interactive reports and technical documentation

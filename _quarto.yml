@@ -13,8 +13,6 @@ website:
     right:
       - text: "Projects"
         href: projects.qmd
-      - text: "Papers"
-        href: papers.qmd
       - text: "Research" 
         href: blog.qmd
       - text: "Contact"
