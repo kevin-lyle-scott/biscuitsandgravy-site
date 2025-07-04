@@ -89,6 +89,8 @@
                         <p class="text-warm-secondary mb-4">Click the buttons to see how naive chunking strategies can break the text's semantic integrity.</p>
                         <div class="flex flex-wrap gap-3">
                             <button id="btn-fixed-size" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Fixed-Size Chunking</button>
+                            <button id="btn-recursive" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Recursive Chunking</button>
+                            <button id="btn-sentence" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Sentence Chunking</button>
                             <button id="btn-paragraph" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Apply Paragraph Chunking</button>
                             <button id="btn-reset" class="bg-white hover:bg-accent-light border border-warm-accent px-4 py-2 rounded-md font-medium transition-colors">Reset</button>
                         </div>
@@ -182,6 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: `Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science. She was the first woman to win a Nobel Priz<span class="bg-red-200 text-red-800 font-bold">|</span>e, the first person and the only woman to win the Nobel Prize twice, and the only person to win the Nobel Prize in two scientific fields. Her hu<span class="bg-red-200 text-red-800 font-bold">|</span>sband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.`,
                 explanation: '<strong>Context Fragmentation:</strong> This brute-force method splits the text at arbitrary points (e.g., every 150 characters). Notice how it severs words ("Prize") and separates concepts ("husband" from "Pierre Curie"), creating nonsensical, fragmented chunks.'
             },
+            recursive: {
+                text: `<span class="bg-green-100 text-green-800">Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science.</span> <span class="bg-purple-100 text-purple-800">She was the first woman to win a Nobel Prize, the first person and the only woman to win the Nobel Prize twice, <span class="bg-red-200 text-red-800 font-bold">|</span> and the only person to win the Nobel Prize in two scientific fields.</span> <span class="bg-yellow-100 text-yellow-800">Her husband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.</span>`,
+                explanation: '<strong>Smarter, But Still Heuristic:</strong> Recursive chunking first tries to split by meaningful separators (like sentences, shown by colored blocks). If a chunk is still too large (hypothetically), it "recursively" splits it with a less meaningful separator (the red line). It\'s better, but still lacks true semantic understanding.'
+            },
+            sentence: {
+                text: `<span class="bg-green-100 text-green-800">Marie Curie was a physicist and chemist whose research on radioactivity laid the foundation for modern nuclear science.</span> <span class="bg-purple-100 text-purple-800">She was the first woman to win a Nobel Prize, the first person and the only woman to win the Nobel Prize twice, and the only person to win the Nobel Prize in two scientific fields.</span> <span class="bg-yellow-100 text-yellow-800">Her husband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first-ever married couple to win the Nobel Prize.</span>`,
+                explanation: '<strong>A Middle Ground with Flaws:</strong> Sentence chunking avoids arbitrary cuts. However, it can still group multiple distinct ideas. The second chunk, for instance, contains several facts about her Nobel prizes. A more advanced system would split those into individual propositions for better precision.'
+            },
             paragraph: {
                 text: `<span class="bg-blue-200 text-blue-800">${originalText}</span>`,
                 explanation: '<strong>Semantic Dilution:</strong> Using the entire paragraph as a single chunk preserves context but dilutes meaning. This chunk contains multiple facts (radioactivity research, Nobel prizes, her husband). A query about "Pierre Curie" would retrieve all this information, potentially confusing an LLM with irrelevant details.'
@@ -197,13 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 1, name: 'Propositional Decomposition & Grounding', icon: '📝', principle: 'Propositional Logic, Coreference', process: 'Uses an LLM to extract minimal propositions and a coreference model to replace pronouns with their canonical entities (e.g., "She won" becomes "Marie Curie won").', output: 'Graph of referentially-grounded propositions.' },
             { id: 2, name: 'Predicate-Argument Analysis', icon: '⚙️', principle: 'Frame Semantics, Thematic Roles', process: 'Applies Semantic Role Labeling (SRL) to find "who did what to whom" and maps verbs to a conceptual ontology (FrameNet) to group related actions.', output: 'Event-centric micro-clusters of propositions.' },
             { id: 3, name: 'Rhetorical Boundary Detection', icon: '🌳', principle: 'Rhetorical Structure Theory (RST)', process: 'Builds a discourse tree to understand the argumentative flow (e.g., claim -> evidence -> contrast). Identifies chunk boundaries at major rhetorical shifts.', output: 'Candidate chunk boundaries.' },
-            { id: 4, name: 'Dynamic Chunk Assembly', icon: '🧩', principle: 'Discourse Cohesion, Cognitive Constraints', process: 'Assembles final chunks using a composite score, respecting rhetorical boundaries and token limits while ensuring topical consistency.', output: 'Final, coherent, size-constrained text chunks.' }
+            { id: 4, name: 'Dynamic Chunk Assembly', icon: '🧩', principle: 'Discourse Cohesion, Cognitive Constraints', process: 'Assembles final chunks using a composite score, respecting rhetorical boundaries and token limits while ensuring topical consistency.', output: 'Final, coherent, and size-constrained text chunks.' }
         ],
         evaluationMetrics: [
             { name: 'Propositional Integrity (PIS)', principle: 'Logical Completeness', measures: 'The degree to which a chunk fragments a core argument or idea.', icon: '✔️' },
             { name: 'Referential Closure (RCS)', principle: 'Anaphora/Coreference', measures: 'The degree of contextual self-containment; checks for dangling pronouns.', icon: '🔗' },
             { name: 'Rhetorical Coherence (RhCS)', principle: 'Rhetorical Structure', measures: 'Whether the chunk represents a single, coherent rhetorical move (e.g., a claim and its evidence).', icon: '⚖️' },
-            { name: 'Semantic Frame Consistency (SFC)', principle: 'Frame Semantics', measures: 'The thematic unity of the chunk, ensuring it focuses on a single event type.', icon: '🎯' }
+            { name: 'Semantic Frame Consistency (SFC)', principle: 'Frame Semantics', measures: 'The thematic unity of the chunk, ensuring it focuses on a single event type or related set of events.', icon: '🎯' }
         ]
     };
 
@@ -226,6 +236,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-fixed-size').addEventListener('click', () => {
         textDisplay.innerHTML = appData.chunkingStrategies.fixedSize.text;
         explanationBox.innerHTML = appData.chunkingStrategies.fixedSize.explanation;
+        explanationBox.style.opacity = '1';
+    });
+
+    document.getElementById('btn-recursive').addEventListener('click', () => {
+        textDisplay.innerHTML = appData.chunkingStrategies.recursive.text;
+        explanationBox.innerHTML = appData.chunkingStrategies.recursive.explanation;
+        explanationBox.style.opacity = '1';
+    });
+
+    document.getElementById('btn-sentence').addEventListener('click', () => {
+        textDisplay.innerHTML = appData.chunkingStrategies.sentence.text;
+        explanationBox.innerHTML = appData.chunkingStrategies.sentence.explanation;
         explanationBox.style.opacity = '1';
     });
     

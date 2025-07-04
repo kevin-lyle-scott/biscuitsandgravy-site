@@ -19,4 +19,4 @@ Working with **Ethan Davis** at SAS Institute on embedding compression technique
 
 An interactive demo exploring novel approaches to document chunking that preserve semantic coherence and linguistic boundaries.
 
-[View Interactive Demo →](./papers/LinguisticSemanticChunking.html)
+[View Interactive Demo →](./research/LinguisticSemanticChunking.html)
