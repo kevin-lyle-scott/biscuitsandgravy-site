@@ -1,5 +1,6 @@
 ---
 title: "Dimensionality Reduction in Embedding Spaces: A Comparative Analysis of DCT and SVD for RAG Systems"
+description: "Comparing DCT and SVD for compressing embeddings in RAG systems while preserving retrieval quality."
 author: "Kevin Scott and Ethan Davis"
 date: "2024-01-20"
 categories: [RAG, dimension-reduction, embeddings, information-retrieval]

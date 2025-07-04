@@ -2,33 +2,6 @@
 title: "Projects"
 ---
 
-## Active Research
-
-### SketchRAG
-*Dimension reduction for retrieval systems*
-
-Applying sketching algorithms to reduce embedding dimensions by 90% while maintaining retrieval accuracy. Combines random projection with adaptive compression techniques.
-
-[View on GitHub →](https://github.com/kevin-lyle-scott)
-
----
-
-### MetaChunk  
-*Intelligent document segmentation*
-
-Context-aware document chunking using metadata boundaries. Improves retrieval quality in RAG systems by preserving semantic coherence.
-
-[Documentation →](https://github.com/kevin-lyle-scott)
-
----
-
-### GraphAgent
-*Multi-hop reasoning architecture*
-
-Graph-based retrieval system for complex reasoning tasks. Integrates knowledge graphs with autonomous agent frameworks.
-
-[Learn more →](https://github.com/kevin-lyle-scott)
-
 ## Collaborations
 
 Working with **Ethan Davis** at SAS Institute on embedding compression techniques for production ML systems.
@@ -38,3 +11,7 @@ Working with **Ethan Davis** at SAS Institute on embedding compression technique
 - **LangChain** - RAG pipeline optimizations
 - **Vector DB Benchmarks** - Performance analysis tools  
 - **Fine-tuning Utils** - Memory-efficient training utilities
+
+## Technical Papers
+
+See our [Papers](./papers.html) section for detailed technical reports, including work on linguistic semantic chunking algorithms.

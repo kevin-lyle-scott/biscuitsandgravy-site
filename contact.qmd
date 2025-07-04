@@ -4,7 +4,7 @@ title: "Contact"
 
 ## Get in Touch
 
-I work at the intersection of generative AI and high-performance computing, helping organizations build efficient, scalable AI systems.
+I work at SAS Institute Inc. at the intersection of generative AI and high-performance computing, helping organizations build efficient, scalable AI systems. I also develop software for multivariate anomaly detection and nonlinear measures of association for system identification problems.
 
 **Email**  
 [klscott.learning@gmail.com](mailto:klscott.learning@gmail.com)

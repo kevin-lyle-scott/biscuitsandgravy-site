@@ -1,0 +1,12 @@
+---
+title: "Papers"
+---
+
+## Technical Reports & Papers
+
+### The Linguistic-Semantic Chunking (LSC) Algorithm
+*Interactive technical report on advanced document segmentation*
+
+A novel approach to document chunking that preserves semantic coherence and linguistic boundaries. Features interactive visualizations demonstrating chunking methods, paradigm comparisons, and the LSC algorithm pipeline.
+
+[View Report →](./papers/LinguisticSemanticChunking.html)
