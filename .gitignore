@@ -19,5 +19,6 @@ node_modules/
 *.swp
 *.swo
 *~
-.idea/__pycache__/
+.idea/
+__pycache__/
 *.pyc
