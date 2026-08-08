@@ -25,11 +25,15 @@ KEY = "04fcbeb76cf369b5d47eaa3f758b82e4"
 ENDPOINT = "https://api.indexnow.org/indexnow"
 SITEMAP_NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 TIMEOUT = 30
+# Cloudflare fronts the site and rejects the default "Python-urllib/3.x"
+# User-Agent with a 403, so identify ourselves properly on every request.
+USER_AGENT = f"{HOST}-indexnow/1.0 (+https://{HOST}/)"
 
 
 def read_sitemap(source: str) -> bytes:
     if source.startswith(("http://", "https://")):
-        with urllib.request.urlopen(source, timeout=TIMEOUT) as resp:
+        req = urllib.request.Request(source, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
             return resp.read()
     with open(source, "rb") as fh:
         return fh.read()
@@ -52,7 +56,10 @@ def submit(urls: list[str]) -> int:
     req = urllib.request.Request(
         ENDPOINT,
         data=json.dumps(payload).encode(),
-        headers={"Content-Type": "application/json; charset=utf-8"},
+        headers={
+            "Content-Type": "application/json; charset=utf-8",
+            "User-Agent": USER_AGENT,
+        },
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
