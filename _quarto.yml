@@ -10,6 +10,8 @@ project:
     - CNAME
     - .nojekyll
     - robots.txt
+    # IndexNow ownership key — must be publicly fetchable at the site root.
+    - 04fcbeb76cf369b5d47eaa3f758b82e4.txt
     - styles.css
     - chip-min.png
     - favicon.png

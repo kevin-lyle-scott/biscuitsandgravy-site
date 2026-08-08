@@ -45,3 +45,33 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tell IndexNow (Bing, Yandex, Seznam, Naver) the site changed, so new and
+  # updated pages get picked up in hours rather than whenever the next crawl
+  # happens. Never fails the pipeline: the deploy above already succeeded, and
+  # a missed ping only costs some indexing latency.
+  indexnow:
+    runs-on: ubuntu-latest
+    needs: deploy
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for the new deploy to be served
+        run: |
+          set -euo pipefail
+          KEY_URL="https://biscuitsandgravy.ai/04fcbeb76cf369b5d47eaa3f758b82e4.txt"
+          for attempt in 1 2 3 4 5 6; do
+            if curl -fsS -o /dev/null "$KEY_URL"; then
+              echo "Key file is live."
+              exit 0
+            fi
+            echo "Key file not served yet (attempt $attempt/6); waiting 15s."
+            sleep 15
+          done
+          echo "Key file never became reachable at $KEY_URL" >&2
+          exit 1
+
+      - name: Submit sitemap URLs to IndexNow
+        run: python3 .github/scripts/submit-indexnow.py
