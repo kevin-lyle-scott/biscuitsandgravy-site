@@ -69,7 +69,7 @@ $\text{RC@}k = \frac{|\mathcal{R}_{\text{full}}(q, k) \cap \mathcal{R}_{\text{re
 1. **Corpus Preparation**: Segment documents into semantically coherent chunks
 2. **Embedding Generation**: Apply pre-trained encoder (e.g., BERT, Sentence-BERT, E5)
 3. **Dimensionality Reduction**: 
-   - For PCA: Compute on training subset, apply to full corpus
+   - For SVD: Compute on training subset, apply to full corpus
    - For DCT: Direct application of transformation matrix
 4. **Quantization**: Apply scalar or vector quantization to reduced embeddings
 5. **Evaluation**:
@@ -115,7 +115,7 @@ The fundamental question: what is the intrinsic dimensionality of semantic embed
 
 ### Numerical Stability
 
-When implementing PCA on high-dimensional embeddings:
+When implementing SVD on high-dimensional embeddings:
 ```python
 # Direct SVD on embedding matrix
 U, S, Vt = np.linalg.svd(embeddings, full_matrices=False)

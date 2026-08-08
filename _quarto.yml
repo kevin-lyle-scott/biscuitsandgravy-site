@@ -1,6 +1,12 @@
 project:
   type: website
-  output-dir: .
+  output-dir: _site
+  resources:
+    - CNAME
+    - .nojekyll
+    - styles.css
+    - chip-min.png
+    - research/**
 
 website:
   title: "Kevin Scott - AI Systems & Performance"
