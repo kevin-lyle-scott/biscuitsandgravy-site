@@ -1,25 +1,43 @@
 project:
   type: website
   output-dir: _site
+  # Only render the site's .qmd pages. This keeps Markdown notes such as
+  # CLAUDE.md (and any other stray .md) out of the published output.
+  render:
+    - "*.qmd"
+    - "posts/*.qmd"
   resources:
     - CNAME
     - .nojekyll
+    - robots.txt
     - styles.css
     - chip-min.png
+    - favicon.png
+    - og-image.png
     - research/**
 
 website:
-  title: "Kevin Scott - AI Systems & Performance"
+  title: "Kevin Scott — AI Systems & Performance Engineering"
+  site-url: https://biscuitsandgravy.ai
+  description: "Kevin Scott — AI Systems & Performance Engineering. Making AI systems faster, cheaper, and more scalable through RAG optimization, embedding compression, and high-performance computing."
+  favicon: favicon.png
+  image: /og-image.png
+  open-graph: true
+  twitter-card: true
+  search:
+    location: navbar
+    type: overlay
   navbar:
     background: light
-    collapse: false
+    collapse: true
+    title: false
     left:
       - text: "Kevin Scott"
         href: index.qmd
     right:
       - text: "Projects"
         href: projects.qmd
-      - text: "Research" 
+      - text: "Research"
         href: blog.qmd
       - text: "Contact"
         href: contact.qmd
@@ -27,8 +45,7 @@ website:
 format:
   html:
     theme: zephyr
-    css: styles.css?v=2
-    toc: true
-
-
-
+    css: styles.css
+    toc: false
+    lang: en
+    email-obfuscation: references

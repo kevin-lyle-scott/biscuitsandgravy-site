@@ -33,7 +33,9 @@ format:
 
 ::: {.hero-container}
 ::: {.hero-content}
-![](chip-min.png){.hero-image}
+```{=html}
+<img src="chip-min.png" class="hero-image" alt="Stylized microchip representing AI systems and performance engineering" />
+```
 
 # Kevin Scott
 

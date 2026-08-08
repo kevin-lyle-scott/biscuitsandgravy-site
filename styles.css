@@ -24,11 +24,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide Quarto title meta and title block, but keep navbar */
-.quarto-title-meta,
-#title-block-header {
-  display: none !important;
-}
+/* Content pages show their Quarto title block. The hero (index) and 404
+   pages use page-layout: custom and suppress the title block themselves
+   via an include-in-header block. */
 
 /* Style the navbar brand as home link */
 .navbar-brand {
@@ -64,6 +62,7 @@ body {
 /* Hero Image */
 .hero-image {
   width: 250px;
+  max-width: 70vw;
   height: auto;
   margin: 0 auto 2.5rem;
   display: block;
@@ -260,7 +259,7 @@ th {
 /* Responsive */
 @media (max-width: 768px) {
   .hero-image {
-    width: 300px;
+    width: 200px;
   }
   
   .hero-links {
@@ -324,4 +323,22 @@ th {
 
 .social-links {
   animation-delay: 0.45s;
+}
+
+/* Respect users who prefer reduced motion: skip the entrance animation
+   entirely and guarantee content is visible (never stuck at opacity: 0). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  .hero-content > *,
+  .hero-image {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+  }
+
+  .hero-image:hover,
+  .hero-links a:hover,
+  .social-links a:hover {
+    transform: none !important;
+  }
 }

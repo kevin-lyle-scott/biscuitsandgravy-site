@@ -1,7 +1,8 @@
 /.quarto/
 /_site/
 *.html
-!404.qmd
+# Keep hand-authored standalone demos that live in the repo
+!research/*.html
 site_libs/
 search.json
 listings.json

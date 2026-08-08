@@ -1,6 +1,13 @@
 ---
 title: "404 - Page Not Found"
 page-layout: custom
+format:
+  html:
+    include-in-header:
+      text: |
+        <style>
+        #title-block-header { display: none !important; }
+        </style>
 ---
 
 ::: {.error-page}
@@ -17,13 +24,5 @@ The page you're looking for doesn't exist. It might have been moved, deleted, or
 - [Projects](projects.qmd) - Explore research projects
 - [Contact](contact.qmd) - Get in touch
 
-### Search
-
-You can also try searching for what you're looking for:
-
-```{=html}
-<div class="search-box">
-  <input type="text" id="search-404" placeholder="Search site..." />
-</div>
-```
+Use the search box in the navigation bar above to find what you're looking for.
 :::

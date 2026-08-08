@@ -4,6 +4,8 @@ description: "Comparing DCT and SVD for compressing embeddings in RAG systems wh
 author: "Kevin Scott and Ethan Davis"
 date: "2024-01-20"
 categories: [RAG, dimension-reduction, embeddings, information-retrieval]
+toc: true
+toc-location: left
 ---
 
 ## Abstract
