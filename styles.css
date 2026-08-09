@@ -6,10 +6,12 @@
 }
 
 :root {
-  /* Color — light. Contrast vs #fff: #000 21:1, #595959 7.00:1 (AAA),
-     #0066cc 5.57:1 (AA for text, clears the 3:1 non-text threshold). */
+  /* Color — light. #555 clears AAA (7:1) on every light ground it lands on,
+     not just white: 7.46:1 on #fff, 7.13:1 on the card surface #f9fafb, and
+     7.00:1 on the code surface #f6f8fa. #0066cc is 5.57:1 — AA for text, and
+     past the 3:1 non-text threshold. */
   --text-primary: #000;
-  --text-secondary: #595959;
+  --text-secondary: #555;
   --bg-primary: #fff;
   --surface: #f9fafb;
   --surface-code: #f6f8fa;
@@ -329,6 +331,57 @@ th {
 .quarto-post:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+}
+
+/* Quarto wraps every part of a listing card — title, description, date and
+   author — in its own anchor, so all of it inherits link blue and the card
+   reads as one undifferentiated block at 5.33:1. Restore a real hierarchy:
+   the title carries the link, everything else is body text. */
+/* Specificity matters here: Bootstrap ships `div.quarto-post a` (0,1,2) and
+   our own `main.content a` is also (0,1,2), so a bare `.quarto-post a`
+   (0,1,1) loses to both and the card stays blue. */
+main.content .quarto-post a,
+main.content .quarto-post a:hover,
+div.quarto-post a,
+div.quarto-post a:hover {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.quarto-post .listing-title {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-2);
+  line-height: 1.3;
+}
+
+.quarto-post:hover .listing-title {
+  color: var(--accent);
+}
+
+.quarto-post .listing-description,
+.quarto-post .listing-date,
+.quarto-post .listing-author {
+  color: var(--text-secondary);
+}
+
+.quarto-post .listing-description {
+  line-height: 1.7;
+}
+
+.quarto-post .metadata {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* No post supplies a thumbnail, so Quarto emits an empty placeholder that
+   only consumes layout space. */
+.quarto-post .thumbnail,
+.quarto-post .listing-item-img-placeholder {
+  display: none;
 }
 
 /* Social Links. The anchor is padded out to a 44px minimum hit area
