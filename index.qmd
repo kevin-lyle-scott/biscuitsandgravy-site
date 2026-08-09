@@ -45,7 +45,7 @@ AI Systems & Performance Engineering
 *Making AI systems faster, cheaper, and more scalable*
 
 ::: {.hero-links}
-[Projects](projects.qmd) [Research](blog.qmd) [Contact](contact.qmd)
+[Projects](projects.qmd) [Research](research.qmd) [Contact](contact.qmd)
 :::
 
 ::: {.social-links}

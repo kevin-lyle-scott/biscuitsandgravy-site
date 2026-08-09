@@ -1,6 +1,6 @@
 ---
 title: "Projects"
-description: "Projects and open-source work in AI systems performance: RAG pipeline optimization, vector database benchmarks, embedding compression, and an interactive Linguistic Semantic Chunking demo."
+description: "Projects and open-source work in AI systems performance: RAG pipeline optimization, vector database benchmarks, and embedding compression for production ML systems."
 ---
 
 ## Collaborations
@@ -15,9 +15,7 @@ Working with **Ethan Davis** at SAS Institute on embedding compression technique
 
 ## Explorations
 
-### Linguistic Semantic Chunking
-*Interactive exploration of advanced chunking algorithms*
+Interactive demos live with the rest of the research output, including the
+Linguistic Semantic Chunking explorer.
 
-An interactive demo exploring novel approaches to document chunking that preserve semantic coherence and linguistic boundaries.
-
-[View Interactive Demo →](./research/LinguisticSemanticChunking.html)
+[Browse Research →](research.qmd)

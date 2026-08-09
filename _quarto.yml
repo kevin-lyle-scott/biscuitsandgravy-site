@@ -40,7 +40,7 @@ website:
       - text: "Projects"
         href: projects.qmd
       - text: "Research"
-        href: blog.qmd
+        href: research.qmd
       - text: "Contact"
         href: contact.qmd
 

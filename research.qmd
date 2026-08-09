@@ -1,0 +1,29 @@
+---
+title: "Research"
+description: "Research writing on AI systems and performance — embedding compression, dimensionality reduction, retrieval-augmented generation, and interactive explorations."
+aliases:
+  - /blog.html
+listing:
+  id: posts
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: false
+  feed: true
+---
+
+## Writing
+
+::: {#posts}
+:::
+
+## Interactive demos
+
+### Linguistic Semantic Chunking
+
+An interactive exploration of document chunking approaches that preserve
+semantic coherence and linguistic boundaries, comparing fixed-size, recursive,
+embedding-similarity and propositional strategies against a linguistic-semantic
+one.
+
+[Open the demo →](research/LinguisticSemanticChunking.html)
