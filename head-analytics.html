@@ -1,13 +1,11 @@
-<!-- Plausible Analytics — cookieless and privacy-preserving: no cookies, no
-     cross-site tracking, no personal data collected, so it needs no consent
-     banner under GDPR/CCPA. Loads deferred so it never blocks rendering, and
-     the site degrades silently if the script is blocked or fails.
+<!-- Cloudflare Web Analytics — cookieless and privacy-preserving: no cookies,
+     no cross-site tracking, no personal data, so it needs no consent banner
+     and no privacy policy under GDPR/CCPA. Free, and the domain is already
+     proxied through Cloudflare.
 
-     The `outbound-links` variant also records clicks that leave the site,
-     which is what most of this site's calls to action are: GitHub, LinkedIn,
-     email, and the Linguistic Semantic Chunking demo. Swap the src to
-     https://plausible.io/js/script.js for pageviews only.
+     The beacon token is a public site identifier, not a credential — it ships
+     in the page source by design and is safe to commit.
 
-     Requires biscuitsandgravy.ai to be added as a site in the Plausible
-     dashboard; until then the script loads but no stats are recorded. -->
-<script defer data-domain="biscuitsandgravy.ai" src="https://plausible.io/js/script.outbound-links.js"></script>
+     type="module" is deferred by default, so this never blocks rendering, and
+     the site degrades silently if the beacon is blocked or fails to load. -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0a60cf6ae01b4f22b5bd1d24fc401d65"}'></script>
