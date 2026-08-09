@@ -1,5 +1,6 @@
 ---
 title: "Contact"
+description: "Get in touch with Kevin Scott, working at the intersection of generative AI and high-performance computing at SAS Institute."
 ---
 
 ## Get in Touch

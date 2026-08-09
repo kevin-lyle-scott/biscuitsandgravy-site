@@ -1,0 +1,56 @@
+<script>
+  /* Accessibility patches for markup Quarto generates that we cannot reach
+     from CSS or the .qmd sources. Each corresponds to an axe-core violation:
+
+       - button-name (critical): the collapsed search button renders as a bare
+         <button> with only an icon inside, so screen readers announce nothing.
+       - aria-input-field-name (serious): the search combobox wrapper has
+         role="combobox" but no accessible name.
+       - landmark-unique (moderate): pages with a table of contents carry two
+         <nav> landmarks with no way to tell them apart.
+
+     The search UI is built by Quarto's autocomplete after DOMContentLoaded, so
+     a one-shot pass would miss it. A MutationObserver catches it whenever it
+     appears and then disconnects, with a hard timeout so it can never observe
+     for the life of the page. */
+  (function () {
+    var label = function (el, text) {
+      if (el && !el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) {
+        el.setAttribute('aria-label', text);
+      }
+    };
+
+    function patch() {
+      document.querySelectorAll('.aa-DetachedSearchButton').forEach(function (b) {
+        label(b, 'Search');
+      });
+      document.querySelectorAll('.aa-Autocomplete[role="combobox"], [role="combobox"].aa-Autocomplete')
+        .forEach(function (c) { label(c, 'Search'); });
+      document.querySelectorAll('.aa-DetachedCancelButton').forEach(function (b) {
+        label(b, 'Cancel search');
+      });
+
+      var navs = document.querySelectorAll('nav');
+      if (navs.length > 1) {
+        navs.forEach(function (n) {
+          if (n.classList.contains('navbar')) label(n, 'Main navigation');
+          else if (n.id === 'TOC' || n.classList.contains('toc-active')) label(n, 'Table of contents');
+          else label(n, 'Section navigation');
+        });
+      }
+    }
+
+    function start() {
+      patch();
+      var obs = new MutationObserver(patch);
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(function () { obs.disconnect(); patch(); }, 5000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start);
+    } else {
+      start();
+    }
+  })();
+</script>

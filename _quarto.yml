@@ -56,3 +56,4 @@ format:
     include-in-header:
       - head-color-scheme.html
       - head-analytics.html
+      - head-a11y.html

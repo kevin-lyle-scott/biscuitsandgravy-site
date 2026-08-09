@@ -8,8 +8,8 @@
 :root {
   /* Color — light. #555 clears AAA (7:1) on every light ground it lands on,
      not just white: 7.46:1 on #fff, 7.13:1 on the card surface #f9fafb, and
-     7.00:1 on the code surface #f6f8fa. #0066cc is 5.57:1 — AA for text, and
-     past the 3:1 non-text threshold. */
+     7.00:1 on the code surface #f6f8fa. The accent #0051a6 is held to the same
+     bar: 7.70:1 on white, 7.37:1 on cards, 7.23:1 on code. */
   --text-primary: #000;
   --text-secondary: #555;
   --bg-primary: #fff;
@@ -17,8 +17,8 @@
   --surface-code: #f6f8fa;
   --border: rgba(0, 0, 0, 0.1);
   --border-subtle: rgba(0, 0, 0, 0.05);
-  --accent: #0066cc;
-  --focus-ring: #0066cc;
+  --accent: #0051a6;
+  --focus-ring: #0051a6;
   --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
   --hero-image-filter: grayscale(100%) contrast(1.1);
@@ -45,6 +45,14 @@
   /* Motion + interaction */
   --ease: 0.2s ease;
   --tap-min: 44px;
+
+  /* Bootstrap themes every link it owns from these. Without them the theme's
+     own #3459e6 leaks through anywhere our `main.content a` rule doesn't
+     reach — the 404 page and the post TOC, both measured at 5.64:1. */
+  --bs-link-color: #0051a6;
+  --bs-link-color-rgb: 0, 81, 166;
+  --bs-link-hover-color: #003d7d;
+  --bs-link-hover-color-rgb: 0, 61, 125;
 }
 
 /* Dark theme. Quarto sets .quarto-dark on <body> when the dual light/dark
@@ -58,12 +66,16 @@ body.quarto-dark {
   --surface-code: #1a1a1a;
   --border: rgba(255, 255, 255, 0.14);
   --border-subtle: rgba(255, 255, 255, 0.07);
-  --accent: #5aa9ff;
-  --focus-ring: #5aa9ff;
+  --accent: #6cb2ff;
+  --focus-ring: #6cb2ff;
   --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
   --hero-image-filter: grayscale(100%) contrast(1.1) invert(1);
   --hero-image-filter-hover: grayscale(90%) contrast(1.2) invert(1);
+  --bs-link-color: #6cb2ff;
+  --bs-link-color-rgb: 108, 178, 255;
+  --bs-link-hover-color: #8cc3ff;
+  --bs-link-hover-color-rgb: 140, 195, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -75,12 +87,16 @@ body.quarto-dark {
     --surface-code: #1a1a1a;
     --border: rgba(255, 255, 255, 0.14);
     --border-subtle: rgba(255, 255, 255, 0.07);
-    --accent: #5aa9ff;
-    --focus-ring: #5aa9ff;
+    --accent: #6cb2ff;
+    --focus-ring: #6cb2ff;
     --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.6);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
     --hero-image-filter: grayscale(100%) contrast(1.1) invert(1);
     --hero-image-filter-hover: grayscale(90%) contrast(1.2) invert(1);
+    --bs-link-color: #6cb2ff;
+    --bs-link-color-rgb: 108, 178, 255;
+    --bs-link-hover-color: #8cc3ff;
+    --bs-link-hover-color-rgb: 140, 195, 255;
   }
 }
 
@@ -136,6 +152,39 @@ body.quarto-dark .navbar {
     background-color: var(--bg-primary) !important;
     border-bottom: 1px solid var(--border);
   }
+}
+
+/* Post category tags. Quarto renders these at `opacity: .6`, and black at 60%
+   composites to exactly #666 (5.74:1) — the opacity, not the colour, is what
+   fails AAA. Use a real token at full opacity instead. */
+.quarto-title .quarto-categories .quarto-category {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+
+/* Table of contents. Bootstrap styles .nav-link from --bs-nav-link-color,
+   not --bs-link-color, so the TOC kept the theme's #3459e6 at 5.64:1. Scoped
+   to the TOC so the navbar keeps its own treatment: inactive entries read as
+   secondary text and only the current section takes the accent. */
+#TOC .nav-link,
+nav[role="doc-toc"] .nav-link,
+.sidebar nav[role="doc-toc"] > ul li a {
+  color: var(--text-secondary) !important;
+}
+
+/* !important is required rather than preferred: Quarto's compiled theme ships
+   `color:#3459e6 !important` on the active and hover states, so no amount of
+   specificity wins without it. */
+#TOC .nav-link.active,
+#TOC .nav-link:hover,
+nav[role="doc-toc"] .nav-link.active,
+nav[role="doc-toc"] .nav-link:hover,
+.sidebar nav[role="doc-toc"] ul > li > a.active,
+.sidebar nav[role="doc-toc"] ul > li > ul > li > a.active,
+.sidebar nav[role="doc-toc"] ul > li > a:hover,
+.sidebar nav[role="doc-toc"] ul > li > ul > li > a:hover {
+  color: var(--accent) !important;
+  border-left-color: var(--accent);
 }
 
 /* Main container adjustments */
@@ -284,6 +333,67 @@ code {
   font-size: 0.9em;
 }
 
+/* Quarto wraps highlighted blocks in div.sourceCode with its own translucent
+   background (rgba(233,236,239,.65), which composites to #f1f3f5) and makes
+   pre.sourceCode transparent, so --surface-code never reached them. Pinning it
+   here both restores the intended surface and makes the syntax contrast below
+   hold, since those values are computed against --surface-code. */
+div.sourceCode {
+  background-color: var(--surface-code);
+  border-color: var(--border-subtle);
+}
+
+/* Syntax highlighting contrast.
+   Quarto's highlight themes write literal colours into `code span.*` rules —
+   the --quarto-hl-*-color variables it also defines are never referenced — so
+   the tokens have to be overridden directly. Several fell short of AAA against
+   the code surface (comments and operators at 6.09:1, strings at 5.05:1,
+   attributes at 4.84:1, imports at 4.83:1).
+
+   Replacements keep each token's hue and saturation and move only lightness,
+   so the palette still reads as the same theme. Light rules are scoped with
+   :not(.quarto-dark) because Quarto swaps its syntax stylesheet per scheme —
+   unscoped, these would bleed into dark mode and wreck it. */
+body:not(.quarto-dark) code span.an,
+body:not(.quarto-dark) code span.op,
+body:not(.quarto-dark) code span.in,
+body:not(.quarto-dark) code span.wa,
+body:not(.quarto-dark) code span.do,
+body:not(.quarto-dark) code span.co,
+body:not(.quarto-dark) code span.cv,
+body:not(.quarto-dark) code span.sc {
+  color: #545454; /* 7.11:1 */
+}
+
+body:not(.quarto-dark) code span.ss,
+body:not(.quarto-dark) code span.st,
+body:not(.quarto-dark) code span.vs,
+body:not(.quarto-dark) code span.ch {
+  color: #195e3c; /* 7.29:1 */
+}
+
+body:not(.quarto-dark) code span.at {
+  color: #4d591a; /* 7.15:1 */
+}
+
+body:not(.quarto-dark) code span.fu {
+  color: #404f99; /* 7.05:1 */
+}
+
+body:not(.quarto-dark) code span.im {
+  color: #005b7a; /* 7.10:1 */
+}
+
+body:not(.quarto-dark) code span.cn {
+  color: #764a02; /* 7.17:1 */
+}
+
+body.quarto-dark code span.al,
+body.quarto-dark code span.er,
+body.quarto-dark code span.pp {
+  color: #f2858b; /* 7.05:1 on #1a1a1a */
+}
+
 /* Tables. Wide tables scroll inside their own box rather than pushing the
    page sideways; `display: block` is what makes overflow-x apply to a table. */
 table {
@@ -378,9 +488,13 @@ div.quarto-post a:hover {
 }
 
 /* No post supplies a thumbnail, so Quarto emits an empty placeholder that
-   only consumes layout space. */
+   only consumes layout space. Quarto also emits an anchor per listing field
+   even when the field is empty (e.g. the unused subtitle), which lands in the
+   tab order with no accessible name — axe flags it as a serious link-name
+   violation. Hiding removes it from the accessibility tree entirely. */
 .quarto-post .thumbnail,
-.quarto-post .listing-item-img-placeholder {
+.quarto-post .listing-item-img-placeholder,
+.quarto-post a:empty {
   display: none;
 }
 

@@ -1,4 +1,5 @@
 ---
+description: "Kevin Scott — AI Systems & Performance Engineering. Making AI systems faster, cheaper, and more scalable."
 page-layout: custom
 format:
   html:
@@ -31,10 +32,10 @@ format:
         </style>
 ---
 
-::: {.hero-container}
+::: {.hero-container role="main"}
 ::: {.hero-content}
 ```{=html}
-<img src="chip-min.png" class="hero-image" alt="Stylized microchip representing AI systems and performance engineering" />
+<img src="chip-min.png" class="hero-image" width="500" height="500" alt="Stylized microchip representing AI systems and performance engineering" />
 ```
 
 # Kevin Scott

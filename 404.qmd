@@ -1,5 +1,6 @@
 ---
 title: "404 - Page Not Found"
+description: "That page doesn't exist. Browse projects, research writing, or get in touch."
 page-layout: custom
 format:
   html:
@@ -10,7 +11,7 @@ format:
         </style>
 ---
 
-::: {.error-page}
+::: {.error-page role="main"}
 # 404
 
 ## Page Not Found

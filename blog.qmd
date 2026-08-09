@@ -1,5 +1,6 @@
 ---
 title: "Research"
+description: "Research writing on AI systems and performance — embedding compression, dimensionality reduction, and retrieval-augmented generation."
 listing:
   contents: posts
   sort: "date desc"
@@ -7,3 +8,9 @@ listing:
   categories: false
   feed: true
 ---
+
+<!-- Quarto renders each listing title as an h3. Without an intervening h2 the
+     document jumps h1 -> h3, which axe flags as a heading-order violation.
+     This is a genuine section heading, hidden visually rather than removed so
+     it still reaches assistive tech. -->
+## Posts {.visually-hidden}
