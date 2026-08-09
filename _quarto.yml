@@ -46,8 +46,12 @@ website:
 
 format:
   html:
-    theme: zephyr
+    theme:
+      light: zephyr
+      dark: darkly
     css: styles.css
     toc: false
     lang: en
     email-obfuscation: references
+    include-in-header:
+      - head-color-scheme.html

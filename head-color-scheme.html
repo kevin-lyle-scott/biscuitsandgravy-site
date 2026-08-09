@@ -1,0 +1,27 @@
+<script>
+  /* Quarto decides light vs dark purely from localStorage["quarto-color-scheme"]
+     ("default" | "alternate") and hardcodes darkModeDefault = false, so a visitor
+     whose OS is set to dark still gets the light theme until they hit the toggle.
+
+     This seeds that key from the OS preference before Quarto's DOMContentLoaded
+     handler reads it. It keeps following the OS on every visit *until* the user
+     toggles manually: we remember the value we wrote, and once the stored value
+     stops matching it, the choice is theirs and we leave it alone. */
+  (function () {
+    try {
+      var KEY = "quarto-color-scheme";
+      var AUTO = "quarto-color-scheme-auto";
+      var stored = window.localStorage.getItem(KEY);
+      var auto = window.localStorage.getItem(AUTO);
+      if (stored === null || stored === auto) {
+        var want = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "alternate"
+          : "default";
+        window.localStorage.setItem(KEY, want);
+        window.localStorage.setItem(AUTO, want);
+      }
+    } catch (e) {
+      /* Private mode or storage disabled — fall back to Quarto's light default. */
+    }
+  })();
+</script>

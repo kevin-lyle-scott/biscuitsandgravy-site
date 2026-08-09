@@ -1,8 +1,10 @@
 /.quarto/
 /_site/
 *.html
-# Keep hand-authored standalone demos that live in the repo
+# Keep hand-authored source HTML that lives in the repo (rendered output is
+# under /_site/, which is ignored above).
 !research/*.html
+!head-color-scheme.html
 site_libs/
 search.json
 listings.json

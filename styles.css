@@ -6,11 +6,80 @@
 }
 
 :root {
+  /* Color — light. Contrast vs #fff: #000 21:1, #595959 7.00:1 (AAA),
+     #0066cc 5.57:1 (AA for text, clears the 3:1 non-text threshold). */
   --text-primary: #000;
-  --text-secondary: #666;
+  --text-secondary: #595959;
   --bg-primary: #fff;
+  --surface: #f9fafb;
+  --surface-code: #f6f8fa;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-subtle: rgba(0, 0, 0, 0.05);
   --accent: #0066cc;
-  --max-width: 1200px;
+  --focus-ring: #0066cc;
+  --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --hero-image-filter: grayscale(100%) contrast(1.1);
+  --hero-image-filter-hover: grayscale(90%) contrast(1.2);
+
+  /* Spacing scale — rem multiples of the 16px root */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --gutter: 20px;
+
+  /* Layout */
+  --content-width: 700px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* Motion + interaction */
+  --ease: 0.2s ease;
+  --tap-min: 44px;
+}
+
+/* Dark theme. Quarto sets .quarto-dark on <body> when the dual light/dark
+   theme is active; the media query covers any context where that class is
+   absent (e.g. the hero page, which hides the navbar and its toggle). */
+body.quarto-dark {
+  --text-primary: #f2f2f2;
+  --text-secondary: #b0b0b0;
+  --bg-primary: #111;
+  --surface: #191919;
+  --surface-code: #1a1a1a;
+  --border: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --accent: #5aa9ff;
+  --focus-ring: #5aa9ff;
+  --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --hero-image-filter: grayscale(100%) contrast(1.1) invert(1);
+  --hero-image-filter-hover: grayscale(90%) contrast(1.2) invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.quarto-light):not(.quarto-dark) {
+    --text-primary: #f2f2f2;
+    --text-secondary: #b0b0b0;
+    --bg-primary: #111;
+    --surface: #191919;
+    --surface-code: #1a1a1a;
+    --border: rgba(255, 255, 255, 0.14);
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --accent: #5aa9ff;
+    --focus-ring: #5aa9ff;
+    --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --hero-image-filter: grayscale(100%) contrast(1.1) invert(1);
+    --hero-image-filter-hover: grayscale(90%) contrast(1.2) invert(1);
+  }
 }
 
 body {
@@ -28,6 +97,18 @@ body {
    pages use page-layout: custom and suppress the title block themselves
    via an include-in-header block. */
 
+/* Focus. Keyboard users get a visible ring on every interactive element;
+   :focus-visible keeps it off pointer clicks. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
 /* Style the navbar brand as home link */
 .navbar-brand {
   font-weight: 600;
@@ -38,6 +119,21 @@ body {
 .navbar-nav .nav-link {
   font-weight: 400;
   font-size: 1rem;
+}
+
+/* `navbar: background: light` is a Bootstrap utility class baked into the
+   markup, so in dark mode it renders as a washed-out grey band above a
+   near-black page. Pin it to the page ground instead. */
+body.quarto-dark .navbar {
+  background-color: var(--bg-primary) !important;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (prefers-color-scheme: dark) {
+  body:not(.quarto-light):not(.quarto-dark) .navbar {
+    background-color: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border);
+  }
 }
 
 /* Main container adjustments */
@@ -55,7 +151,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 40px var(--gutter);
   position: relative;
 }
 
@@ -64,22 +160,22 @@ body {
   width: 250px;
   max-width: 70vw;
   height: auto;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto var(--space-10);
   display: block;
   opacity: 1;
-  filter: grayscale(100%) contrast(1.1);
-  transition: all 0.3s ease;
+  filter: var(--hero-image-filter);
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .hero-image:hover {
   transform: scale(1.05);
-  filter: grayscale(90%) contrast(1.2);
+  filter: var(--hero-image-filter-hover);
 }
 
 /* Hero Content */
 .hero-content {
   text-align: center;
-  max-width: 700px;
+  max-width: var(--content-width);
   position: relative;
   z-index: 2;
 }
@@ -88,21 +184,17 @@ body {
   font-size: clamp(3rem, 6vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
   line-height: 1.1;
 }
-
-/* Removed - now handled by inline styles */
-
-/* Remove conflicting styles - now handled inline */
 
 /* Hero Links */
 .hero-links {
   display: flex;
-  gap: 2rem;
+  gap: var(--space-8);
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 3rem;
+  margin-top: var(--space-12);
 }
 
 .hero-links a {
@@ -110,50 +202,56 @@ body {
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 500;
-  padding: 1rem 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  padding: var(--space-4) var(--space-8);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  /* Named properties rather than `all` so the focus ring appears instantly
+     instead of fading in with the hover styles. */
+  transition: transform var(--ease), box-shadow var(--ease),
+    border-color var(--ease), color var(--ease);
+  background: var(--bg-primary);
 }
 
 .hero-links a:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   border-color: var(--accent);
   color: var(--accent);
 }
 
 /* Content Pages Styling */
 main.content {
-  max-width: 700px;
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 80px 20px;
+  padding: 80px var(--gutter);
 }
 
 main.content h1 {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-12);
 }
 
 main.content h2 {
   font-size: 1.8rem;
   font-weight: 600;
-  margin: 3rem 0 1.5rem;
+  margin: var(--space-12) 0 var(--space-6);
   letter-spacing: -0.01em;
 }
 
 main.content h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 2rem 0 1rem;
+  margin: var(--space-8) 0 var(--space-4);
 }
 
 main.content p {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
   color: var(--text-secondary);
   line-height: 1.7;
 }
@@ -162,7 +260,7 @@ main.content a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  transition: border-color var(--ease);
 }
 
 main.content a:hover {
@@ -171,12 +269,12 @@ main.content a:hover {
 
 /* Code blocks */
 pre {
-  background: #f6f8fa;
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: var(--surface-code);
+  padding: var(--space-6);
+  border-radius: var(--radius);
   overflow-x: auto;
-  margin: 2rem 0;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin: var(--space-8) 0;
+  border: 1px solid var(--border-subtle);
 }
 
 code {
@@ -184,17 +282,22 @@ code {
   font-size: 0.9em;
 }
 
-/* Tables */
+/* Tables. Wide tables scroll inside their own box rather than pushing the
+   page sideways; `display: block` is what makes overflow-x apply to a table. */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 2rem 0;
+  margin: var(--space-8) 0;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 th, td {
-  padding: 0.75rem;
+  padding: var(--space-3);
   text-align: left;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border);
 }
 
 th {
@@ -207,48 +310,48 @@ th {
 
 /* Blog listing */
 .quarto-listing {
-  margin-top: 3rem;
+  margin-top: var(--space-12);
 }
 
 .quarto-listing-default {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-8);
 }
 
 .quarto-post {
   border: none;
-  padding: 1.5rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  padding: var(--space-6);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  transition: transform var(--ease), box-shadow var(--ease);
 }
 
 .quarto-post:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
 }
 
-/* Social Links */
+/* Social Links. The anchor is padded out to a 44px minimum hit area
+   (WCAG 2.5.5) while the glyph itself stays visually 1.8rem; the gap is
+   reduced to compensate so the optical spacing is unchanged. */
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  margin-top: 3rem;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
 }
 
 .social-links a {
   color: var(--text-secondary);
   font-size: 1.8rem;
-  transition: all 0.2s ease;
+  line-height: 1;
+  transition: color var(--ease), transform var(--ease);
   text-decoration: none;
-  display: inline-block;
-}
-
-.social-links p {
-  margin: 0;
-  display: flex;
-  gap: 3rem;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
 }
 
 .social-links a:hover {
@@ -261,30 +364,22 @@ th {
   .hero-image {
     width: 200px;
   }
-  
+
   .hero-links {
-    gap: 1rem;
+    gap: var(--space-4);
   }
-  
+
   .hero-links a {
-    padding: 0.6rem 1.2rem;
+    padding: var(--space-2) var(--space-4);
     font-size: 0.95rem;
   }
-  
+
   .social-links {
-    gap: 2.5rem;
+    gap: var(--space-6);
   }
-  
-  .social-links p {
-    gap: 2.5rem;
-  }
-  
-  .social-links a {
-    font-size: 1.5rem;
-  }
-  
+
   main.content {
-    padding: 60px 20px;
+    padding: 60px var(--gutter);
   }
 }
 
