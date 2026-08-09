@@ -4,7 +4,7 @@
 # Keep hand-authored source HTML that lives in the repo (rendered output is
 # under /_site/, which is ignored above).
 !research/*.html
-!head-color-scheme.html
+!head-*.html
 site_libs/
 search.json
 listings.json

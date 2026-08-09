@@ -55,3 +55,4 @@ format:
     email-obfuscation: references
     include-in-header:
       - head-color-scheme.html
+      - head-analytics.html
