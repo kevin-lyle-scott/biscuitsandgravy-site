@@ -31,16 +31,16 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag2aaa', 'best-prac
 // CSS. Without this a slow CDN turns an a11y failure into a flaky one.
 const THIRD_PARTY = /fonts\.googleapis|fonts\.gstatic|cdn\.jsdelivr|cdnjs|polyfill|cloudflareinsights/;
 
-// Paths excluded from the gate, as substrings of the served URL.
+// Paths excluded from the gate, as substrings of the served URL. Empty by
+// design: everything the site publishes is audited. The mechanism is kept so
+// an exclusion, if ever needed, has to be written down and reviewed.
 //
-// research/LinguisticSemanticChunking.html is a hand-authored standalone demo
-// with its own stylesheet. It currently fails color-contrast (AA) on the
-// paradigm buttons plus landmark rules, so gating on it would leave CI red
-// from day one. Excluded deliberately and visibly rather than silently: the
-// intent is to fix the demo and delete this entry, not to keep it forever.
-// Audit it on demand with:
-//   node .github/scripts/a11y-audit.mjs _site --no-exclude
-const EXCLUDE = ['/research/LinguisticSemanticChunking.html'];
+// TRAP, do not remove: research/LinguisticSemanticChunking.html pulls Tailwind
+// from cdn.tailwindcss.com at runtime. Adding tailwindcss to THIRD_PARTY below
+// stops `text-white` from applying, the active paradigm button renders black on
+// teal, and axe reports a color-contrast failure that does not exist for real
+// users (white on #00796B is 5.32:1 and passes AA).
+const EXCLUDE = [];
 const HONOUR_EXCLUDE = !process.argv.includes('--no-exclude');
 
 const MIME = {
