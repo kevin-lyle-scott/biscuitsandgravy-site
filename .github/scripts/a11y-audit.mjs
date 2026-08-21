@@ -33,13 +33,12 @@ const THIRD_PARTY = /fonts\.googleapis|fonts\.gstatic|cdn\.jsdelivr|cdnjs|polyfi
 
 // Paths excluded from the gate, as substrings of the served URL. Empty by
 // design: everything the site publishes is audited. The mechanism is kept so
-// an exclusion, if ever needed, has to be written down and reviewed.
+// that an exclusion, if ever needed, has to be written down and reviewed.
 //
-// TRAP, do not remove: research/LinguisticSemanticChunking.html pulls Tailwind
-// from cdn.tailwindcss.com at runtime. Adding tailwindcss to THIRD_PARTY below
-// stops `text-white` from applying, the active paradigm button renders black on
-// teal, and axe reports a color-contrast failure that does not exist for real
-// users (white on #00796B is 5.32:1 and passes AA).
+// Every page is now self-contained: research/LinguisticSemanticChunking.html
+// used to pull Tailwind from a CDN, which meant blocking third-party hosts
+// left it unstyled and produced a colour-contrast failure that did not exist
+// for real users. Its CSS is vendored, so blocking above is safe for it too.
 const EXCLUDE = [];
 const HONOUR_EXCLUDE = !process.argv.includes('--no-exclude');
 
