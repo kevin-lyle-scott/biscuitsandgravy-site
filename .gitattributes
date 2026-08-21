@@ -1,0 +1,11 @@
+# Normalise line endings on commit. research/LinguisticSemanticChunking.html
+# was the repo's only CRLF file, so an edit that rewrote it produced an
+# 876-line diff for a three-line change. Everything is LF now; this keeps it
+# that way regardless of which machine or tool writes a file.
+* text=auto
+
+# Binary assets must never be normalised.
+*.png binary
+*.jpg binary
+*.woff binary
+*.woff2 binary
