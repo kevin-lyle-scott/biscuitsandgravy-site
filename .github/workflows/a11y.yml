@@ -1,0 +1,38 @@
+name: Accessibility
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Runs independently of the deploy pipeline. A failure here is a loud signal
+# rather than a deploy blocker: the site is a personal site, and a broken gate
+# should never be able to stop a content push from shipping.
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render site
+        run: quarto render
+
+      # Versions are pinned on purpose. axe-core adds rules in minor releases,
+      # so an unpinned gate can turn red without the site changing at all.
+      # Bump these deliberately and deal with any new findings as their own change.
+      - name: Install audit tooling
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1 axe-core@4.13.0
+          npx playwright install --with-deps chromium
+
+      - name: Run axe
+        run: node .github/scripts/a11y-audit.mjs _site
